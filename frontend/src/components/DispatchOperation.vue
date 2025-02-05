@@ -23,7 +23,6 @@
             <DriverId offline label="driverId" v-model="value.driverId" :editMode="editMode" @change="change"/>
             <Number label="운행요금" v-model="value.fee" :editMode="editMode" :inputUI="''"/>
         </v-card-text>
-
         <v-card-actions style="background-color: white;">
             <v-spacer></v-spacer>
             <div v-if="!editMode">
@@ -77,6 +76,7 @@
         <v-card-actions>
             <v-spacer></v-spacer>
         </v-card-actions>
+        <payment serviceType="pay"/>
 
         <v-snackbar
             v-model="snackbar.status"
@@ -94,12 +94,14 @@
 </template>
 
 <script>
+    import payment from '../../../payment-system/frontend/src/components/listers/PaymentService.vue';
     const axios = require('axios').default;
 
 
     export default {
         name: 'DispatchOperation',
         components:{
+            payment
         },
         props: {
             value: [Object, String, Number, Boolean, Array],
