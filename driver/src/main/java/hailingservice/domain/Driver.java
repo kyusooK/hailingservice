@@ -56,7 +56,7 @@ public class Driver {
     }
 
     //<<< Clean Arch / Port Method
-    public void confirmLicense(ConfirmLicenseCommand confirmLicenseCommand) {
+    public void confirmLicense() {
         //implement business logic here:
 
         DriverApproved driverApproved = new DriverApproved(this);
@@ -65,7 +65,9 @@ public class Driver {
 
     //>>> Clean Arch / Port Method
     //<<< Clean Arch / Port Method
-    public void acceptCarhailing() {
+    public void acceptCarhailing(
+        AcceptCarhailingCommand acceptCarhailingCommand
+    ) {
         //implement business logic here:
 
         HailingAccepted hailingAccepted = new HailingAccepted(this);

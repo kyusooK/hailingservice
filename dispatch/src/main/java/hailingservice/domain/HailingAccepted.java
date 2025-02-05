@@ -13,5 +13,4 @@ public class HailingAccepted extends AbstractEvent {
     private Boolean isHailing;
     private String driverLocation;
     private String operationRequestForm;
-    private String operationInfo;
 }

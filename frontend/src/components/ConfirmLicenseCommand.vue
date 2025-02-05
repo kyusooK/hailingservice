@@ -5,8 +5,6 @@
         </v-card-title>
 
         <v-card-text>
-            <Boolean label="IsApproved" v-model="value.isApproved" :editMode="editMode"/>
-            <String label="DriverLicenseNumber" v-model="value.driverLicenseNumber" :editMode="editMode"/>
         </v-card-text>
 
         <v-card-actions>
@@ -42,8 +40,6 @@
             value: {},
         }),
         created() {
-            this.value.isApproved = false;
-            this.value.driverLicenseNumber = '';
         },
         watch: {
         },
