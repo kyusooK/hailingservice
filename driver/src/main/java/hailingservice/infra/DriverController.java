@@ -27,7 +27,6 @@ public class DriverController {
     )
     public Driver confirmLicense(
         @PathVariable(value = "id") Long id,
-        @RequestBody ConfirmLicenseCommand confirmLicenseCommand,
         HttpServletRequest request,
         HttpServletResponse response
     ) throws Exception {
@@ -36,7 +35,7 @@ public class DriverController {
 
         optionalDriver.orElseThrow(() -> new Exception("No Entity Found"));
         Driver driver = optionalDriver.get();
-        driver.confirmLicense(confirmLicenseCommand);
+        driver.confirmLicense();
 
         driverRepository.save(driver);
         return driver;
@@ -49,6 +48,7 @@ public class DriverController {
     )
     public Driver acceptCarhailing(
         @PathVariable(value = "id") Long id,
+        @RequestBody AcceptCarhailingCommand acceptCarhailingCommand,
         HttpServletRequest request,
         HttpServletResponse response
     ) throws Exception {
@@ -57,7 +57,7 @@ public class DriverController {
 
         optionalDriver.orElseThrow(() -> new Exception("No Entity Found"));
         Driver driver = optionalDriver.get();
-        driver.acceptCarhailing();
+        driver.acceptCarhailing(acceptCarhailingCommand);
 
         driverRepository.save(driver);
         return driver;

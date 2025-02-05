@@ -5,4 +5,7 @@ import java.util.*;
 import lombok.Data;
 
 @Data
-public class AcceptCarhailingCommand {}
+public class AcceptCarhailingCommand {
+
+    private Boolean isHailing;
+}

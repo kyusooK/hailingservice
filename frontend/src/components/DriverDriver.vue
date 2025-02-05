@@ -67,24 +67,24 @@
                 v-if="!editMode"
                 color="primary"
                 text
-                @click="openConfirmLicense"
+                @click="confirmLicense"
             >
                 ConfirmLicense
             </v-btn>
-            <v-dialog v-model="confirmLicenseDiagram" width="500">
-                <ConfirmLicenseCommand
-                    @closeDialog="closeConfirmLicense"
-                    @confirmLicense="confirmLicense"
-                ></ConfirmLicenseCommand>
-            </v-dialog>
             <v-btn
                 v-if="!editMode"
                 color="primary"
                 text
-                @click="acceptCarhailing"
+                @click="openAcceptCarhailing"
             >
                 AcceptCarhailing
             </v-btn>
+            <v-dialog v-model="acceptCarhailingDiagram" width="500">
+                <AcceptCarhailingCommand
+                    @closeDialog="closeAcceptCarhailing"
+                    @acceptCarhailing="acceptCarhailing"
+                ></AcceptCarhailingCommand>
+            </v-dialog>
         </v-card-actions>
 
         <v-snackbar
@@ -122,7 +122,7 @@
                 timeout: 5000,
                 text: '',
             },
-            confirmLicenseDiagram: false,
+            acceptCarhailingDiagram: false,
         }),
 	async created() {
         },
@@ -220,36 +220,10 @@
             change(){
                 this.$emit('input', this.value);
             },
-            async confirmLicense(params) {
+            async confirmLicense() {
                 try {
                     if(!this.offline) {
-                        var temp = await axios.put(axios.fixUrl(this.value._links['confirmlicense'].href), params)
-                        for(var k in temp.data) {
-                            this.value[k]=temp.data[k];
-                        }
-                    }
-
-                    this.editMode = false;
-                    this.closeConfirmLicense();
-                } catch(e) {
-                    this.snackbar.status = true
-                    if(e.response && e.response.data.message) {
-                        this.snackbar.text = e.response.data.message
-                    } else {
-                        this.snackbar.text = e
-                    }
-                }
-            },
-            openConfirmLicense() {
-                this.confirmLicenseDiagram = true;
-            },
-            closeConfirmLicense() {
-                this.confirmLicenseDiagram = false;
-            },
-            async acceptCarhailing() {
-                try {
-                    if(!this.offline) {
-                        var temp = await axios.put(axios.fixUrl(this.value._links['acceptcarhailing'].href))
+                        var temp = await axios.put(axios.fixUrl(this.value._links['confirmlicense'].href))
                         for(var k in temp.data) {
                             this.value[k]=temp.data[k];
                         }
@@ -264,6 +238,32 @@
                         this.snackbar.text = e
                     }
                 }
+            },
+            async acceptCarhailing(params) {
+                try {
+                    if(!this.offline) {
+                        var temp = await axios.put(axios.fixUrl(this.value._links['acceptcarhailing'].href), params)
+                        for(var k in temp.data) {
+                            this.value[k]=temp.data[k];
+                        }
+                    }
+
+                    this.editMode = false;
+                    this.closeAcceptCarhailing();
+                } catch(e) {
+                    this.snackbar.status = true
+                    if(e.response && e.response.data.message) {
+                        this.snackbar.text = e.response.data.message
+                    } else {
+                        this.snackbar.text = e
+                    }
+                }
+            },
+            openAcceptCarhailing() {
+                this.acceptCarhailingDiagram = true;
+            },
+            closeAcceptCarhailing() {
+                this.acceptCarhailingDiagram = false;
             },
         },
     }

@@ -5,8 +5,4 @@ import java.util.*;
 import lombok.Data;
 
 @Data
-public class ConfirmLicenseCommand {
-
-    private Boolean isApproved;
-    private String driverLicenseNumber;
-}
+public class ConfirmLicenseCommand {}
