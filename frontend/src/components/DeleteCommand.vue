@@ -9,18 +9,18 @@
 
         <v-card-actions>
             <v-spacer></v-spacer>
-            <!-- <v-btn
-                    color="primary"
-                    text
-                    @click="delete"
+            <v-btn
+                color="primary"
+                text
+                @click="deleteFile"
             >
                 Delete
-            </v-btn> -->
+            </v-btn>
             
             <v-btn
-                    color="primary"
-                    text
-                    @click="close"
+                color="primary"
+                text
+                @click="close"
             >
                 Close
             </v-btn>
@@ -44,7 +44,7 @@
         watch: {
         },
         methods: {
-            delete() {
+            deleteFile() {
                 this.$emit('delete', this.value);
             },
             close() {
