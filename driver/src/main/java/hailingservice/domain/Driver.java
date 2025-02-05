@@ -40,12 +40,6 @@ public class Driver {
     public void onPostPersist() {
         DriverRegistered driverRegistered = new DriverRegistered(this);
         driverRegistered.publishAfterCommit();
-
-        DriverDisapproved driverDisapproved = new DriverDisapproved(this);
-        driverDisapproved.publishAfterCommit();
-
-        HailingRejected hailingRejected = new HailingRejected(this);
-        hailingRejected.publishAfterCommit();
     }
 
     public static DriverRepository repository() {
@@ -58,20 +52,66 @@ public class Driver {
     //<<< Clean Arch / Port Method
     public void confirmLicense() {
         //implement business logic here:
+        repository().findById(this.getId()).ifPresent(driver -> {
+            if (driver.getDriverLicenseNumber() != null && driver.getDriverLicenseNumber().length() == 12) {
+                driver.setIsApproved(true);
+                repository().save(driver);
+                
+                DriverApproved driverApproved = new DriverApproved(driver);
+                driverApproved.publishAfterCommit();
+            }else{
+                driver.setIsApproved(false);
+                repository().save(driver);
 
-        DriverApproved driverApproved = new DriverApproved(this);
-        driverApproved.publishAfterCommit();
+                DriverDisapproved driverDisapproved = new DriverDisapproved(this);
+                driverDisapproved.publishAfterCommit();
+            }
+        });
     }
 
     //>>> Clean Arch / Port Method
     //<<< Clean Arch / Port Method
-    public void acceptCarhailing(
-        AcceptCarhailingCommand acceptCarhailingCommand
+    public static void hailDriver(
+        GpsBasedLocationConfirmed gpsBasedLocationConfirmed
     ) {
-        //implement business logic here:
+        
+        ObjectMapper mapper = new ObjectMapper();
+        Map<Long, Object> matchingMap = mapper.convertValue(gpsBasedLocationConfirmed.getDriverId(), Map.class);
 
-        HailingAccepted hailingAccepted = new HailingAccepted(this);
-        hailingAccepted.publishAfterCommit();
+        repository().findById(Long.valueOf(matchingMap.get("id").toString())).ifPresent(driver->{
+            
+            driver.setOerationRequestForm(
+                "승객위치" + ":" + gpsBasedLocationConfirmed.getPassengerLocation() + "\n"
+                + "목적지" + ":" + gpsBasedLocationConfirmed.getDestination() + "\n")
+            repository().save(driver);
+
+         });
+
+    }
+
+    //>>> Clean Arch / Port Method
+    //<<< Clean Arch / Port Method
+    public void acceptCarhailing(AcceptCarhailingCommand acceptCarhailingCommand) {
+
+        repository().findById(this.getId()).ifPresent(driver -> {
+            if(acceptCarhailingCommand.getIsHailing() == true){
+
+                driver.setIsHailing(acceptCarhailingCommand.getIsHailing());
+                repository().save(driver);
+
+                HailingAccepted hailingAccepted = new HailingAccepted(this);
+                hailingAccepted.publishAfterCommit();
+
+            }else{
+
+                driver.setIsHailing(acceptCarhailingCommand.getIsHailing());
+                repository().save(driver);
+
+                HailingRejected hailingRejected = new HailingRejected(this);
+                hailingRejected.publishAfterCommit();
+            }
+        });
+      
     }
 
     //>>> Clean Arch / Port Method
@@ -80,97 +120,34 @@ public class Driver {
     public static void servePassengerBoardingLocation(
         DriverMatched driverMatched
     ) {
-        //implement business logic here:
-
-        /** Example 1:  new item 
-        Driver driver = new Driver();
-        repository().save(driver);
-
-        */
-
-        /** Example 2:  finding and process
         
-        // if driverMatched.tmapIddriverIduserId exists, use it
         
-        // ObjectMapper mapper = new ObjectMapper();
-        // Map<, Object> matchingMap = mapper.convertValue(driverMatched.getTmapId(), Map.class);
-        // Map<Long, Object> matchingMap = mapper.convertValue(driverMatched.getDriverId(), Map.class);
-        // Map<Long, Object> matchingMap = mapper.convertValue(driverMatched.getUserId(), Map.class);
+        ObjectMapper mapper = new ObjectMapper();
+        Map<Long, Object> matchingMap = mapper.convertValue(driverMatched.getDriverId(), Map.class);
 
-        repository().findById(driverMatched.get???()).ifPresent(driver->{
+        repository().findById(Long.valueOf(matchingMap.get("id").toString())).ifPresent(driver->{
             
-            driver // do something
+            // driver.setOperationInfo(출발지 ~ 운전자 현재위치간 거리 및 시간안내 관련 logic 추가)
             repository().save(driver);
 
 
          });
-        */
 
     }
 
     //>>> Clean Arch / Port Method
     //<<< Clean Arch / Port Method
-    public static void hailDriver(
-        GpsBasedLocationConfirmed gpsBasedLocationConfirmed
-    ) {
-        //implement business logic here:
-
-        /** Example 1:  new item 
-        Driver driver = new Driver();
-        repository().save(driver);
-
-        */
-
-        /** Example 2:  finding and process
+    public static void serveDestination( DestinationCalculated destinationCalculated) {
         
-        // if gpsBasedLocationConfirmed.tmapIddriverIduserId exists, use it
-        
-        // ObjectMapper mapper = new ObjectMapper();
-        // Map<, Object> matchingMap = mapper.convertValue(gpsBasedLocationConfirmed.getTmapId(), Map.class);
-        // Map<Long, Object> matchingMap = mapper.convertValue(gpsBasedLocationConfirmed.getDriverId(), Map.class);
-        // Map<Long, Object> matchingMap = mapper.convertValue(gpsBasedLocationConfirmed.getUserId(), Map.class);
+        ObjectMapper mapper = new ObjectMapper();
+        Map<Long, Object> matchingMap = mapper.convertValue(driverMatched.getDriverId(), Map.class);
 
-        repository().findById(gpsBasedLocationConfirmed.get???()).ifPresent(driver->{
+        repository().findById(Long.valueOf(matchingMap.get("id").toString())).ifPresent(driver->{
             
-            driver // do something
+            // driver.setOperationInfo(출발지 ~ 목적지 거리 및 시간안내 관련 logic 추가)
             repository().save(driver);
 
-
          });
-        */
-
-    }
-
-    //>>> Clean Arch / Port Method
-    //<<< Clean Arch / Port Method
-    public static void serveDestination(
-        DestinationCalculated destinationCalculated
-    ) {
-        //implement business logic here:
-
-        /** Example 1:  new item 
-        Driver driver = new Driver();
-        repository().save(driver);
-
-        */
-
-        /** Example 2:  finding and process
-        
-        // if destinationCalculated.tmapIddriverIduserId exists, use it
-        
-        // ObjectMapper mapper = new ObjectMapper();
-        // Map<, Object> matchingMap = mapper.convertValue(destinationCalculated.getTmapId(), Map.class);
-        // Map<Long, Object> matchingMap = mapper.convertValue(destinationCalculated.getDriverId(), Map.class);
-        // Map<Long, Object> matchingMap = mapper.convertValue(destinationCalculated.getUserId(), Map.class);
-
-        repository().findById(destinationCalculated.get???()).ifPresent(driver->{
-            
-            driver // do something
-            repository().save(driver);
-
-
-         });
-        */
 
     }
     //>>> Clean Arch / Port Method

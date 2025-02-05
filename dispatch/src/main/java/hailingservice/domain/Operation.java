@@ -45,14 +45,22 @@ public class Operation {
 
     @PostUpdate
     public void onPostUpdate() {
-        OperationCompleted operationCompleted = new OperationCompleted(this);
-        operationCompleted.publishAfterCommit();
-    }
 
-    @PreUpdate
-    public void onPreUpdate() {
-        Operated operated = new Operated(this);
-        operated.publishAfterCommit();
+        repository().findById(this.getId()).ifPresent(operation ->{
+            if(operation.getOperationStatus() == OperationStatus.OPERATED){
+
+                Operated operated = new Operated(this);
+                operated.publishAfterCommit();
+
+            }else if(operation.getOperationStatus() == OperationStatus.DONE){
+
+                // driver.setFee(3800 + "출발지 ~ 목적지간 거리 x 200");
+
+                OperationCompleted operationCompleted = new OperationCompleted(this);
+                operationCompleted.publishAfterCommit();
+
+            }
+        });
     }
 
     public static OperationRepository repository() {
