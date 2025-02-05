@@ -43,7 +43,13 @@ public class Matching {
     @Embedded
     private UserId userId;
 
+    private Double latitude;
+
+    private Double longitude;
+
     private Integer estimatedTime;
+
+    private Integer estimatedDistance;
 
     public static MatchingRepository repository() {
         MatchingRepository matchingRepository = DispatchApplication.applicationContext.getBean(
@@ -58,61 +64,28 @@ public class Matching {
             ObjectMapper mapper = new ObjectMapper();
             String apiKey = "BIwUJL1VBo3lanAgKYxGQ7egeR1SP8iD7UqIbYpN";
             
-            // 1. 주소를 좌표로 변환
-            GeoPoint passengerPoint = convertAddressToCoordinate(carHailing.getPassengerLocation(), apiKey);
-            GeoPoint driverPoint = convertAddressToCoordinate("경기도 안산시 단원구 고잔동 527-1", apiKey); // carHailing.getDriverAddress()
+            // 1. 승객 주소를 좌표로 변환
+            JsonNode passengerCoordinates = convertAddressToCoordinate(carHailing.getPassengerLocation(), apiKey);
+            double passengerLat = Double.parseDouble(passengerCoordinates.get("noorLat").asText());
+            double passengerLon = Double.parseDouble(passengerCoordinates.get("noorLon").asText());
             
-            // 2. 경로 탐색 API 호출 설정
-            String urlStr = "https://apis.openapi.sk.com/tmap/routes?version=1";
-            URL url = new URL(urlStr);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            // 2. 드라이버 주소를 좌표로 변환
+            JsonNode driverCoordinates = convertAddressToCoordinate("경기도 안산시 단원구 고잔동 527-1", apiKey);
+            double driverLat = Double.parseDouble(driverCoordinates.get("noorLat").asText());
+            double driverLon = Double.parseDouble(driverCoordinates.get("noorLon").asText());
             
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Accept", "application/json");
-            conn.setRequestProperty("Content-Type", "application/json");
-            conn.setRequestProperty("appKey", apiKey);
-            conn.setDoOutput(true);
+            // 3. 경로 계산
+            JsonNode routeProperties = calculateRoute(passengerLat, passengerLon, driverLat, driverLon, apiKey);
             
-            // 3. 요청 바디 구성 (변환된 좌표 사용)
-            ObjectNode requestBody = mapper.createObjectNode();
-            requestBody.put("startX", passengerPoint.getLongitude());
-            requestBody.put("startY", passengerPoint.getLatitude());
-            requestBody.put("endX", driverPoint.getLongitude());
-            requestBody.put("endY", driverPoint.getLatitude());
-            requestBody.put("reqCoordType", "WGS84GEO");
-            requestBody.put("resCoordType", "WGS84GEO");
-            
-            // 4. API 요청 전송
-            OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
-            writer.write(requestBody.toString());
-            writer.flush();
-            
-            // 5. 응답 처리
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            StringBuilder response = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
-            }
-            
-            // 6. JSON 응답 파싱
-            JsonNode jsonResponse = mapper.readTree(response.toString());
-            JsonNode features = jsonResponse.get("features");
-            JsonNode properties = features.get(0).get("properties");
-            
-            // 7. 소요 시간 추출 (초 단위)
-            int totalTime = properties.get("totalTime").asInt();
-            
-            // 8. Matching 엔티티 생성 및 저장
+            // 4. Matching 엔티티 생성 및 저장
             Matching matching = new Matching();
-            // matching.setUserId(carHailing.getUserId());
-            // matching.setDriverId(carHailing.getDriverId());
             matching.setPassengerLocation(carHailing.getPassengerLocation());
-            matching.setEstimatedTime(totalTime); // 예상 소요시간 설정
+            matching.setEstimatedTime(routeProperties.get("totalTime").asInt());
+            matching.setEstimatedDistance(routeProperties.get("totalDistance").asInt());
             
             repository().save(matching);
             
-            // 9. 이벤트 발행
+            // 5. 이벤트 발행
             GpsBasedLocationConfirmed gpsBasedLocationConfirmed = new GpsBasedLocationConfirmed(matching);
             gpsBasedLocationConfirmed.publishAfterCommit();
             
@@ -120,61 +93,73 @@ public class Matching {
             throw new RuntimeException("Failed to calculate route: " + e.getMessage());
         }
     }
-
-    private static GeoPoint convertAddressToCoordinate(String address, String apiKey) throws Exception {
-        // 1. Geocoding API 호출 설정
+    
+    private static JsonNode convertAddressToCoordinate(String address, String apiKey) throws Exception {
         String encodedAddress = URLEncoder.encode(address, "UTF-8");
         String geocodingUrl = "https://apis.openapi.sk.com/tmap/pois?version=1"
-        + "&searchKeyword=" + encodedAddress
-        + "&appKey=" + apiKey
-        + "&count=1";
+            + "&searchKeyword=" + encodedAddress
+            + "&appKey=" + apiKey
+            + "&count=1";
         
         URL url = new URL(geocodingUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/json");
         
-        // 2. 응답 처리
-        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        StringBuilder response = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            response.append(line);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode jsonResponse = mapper.readTree(response.toString());
+            return jsonResponse.get("searchPoiInfo")
+                             .get("pois")
+                             .get("poi")
+                             .get(0);
         }
-        
-        // 3. JSON 파싱
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode jsonResponse = mapper.readTree(response.toString());
-        JsonNode poi = jsonResponse.get("searchPoiInfo")
-                              .get("pois")
-                              .get("poi")
-                              .get(0);
-        
-        // 4. 좌표 추출
-        double latitude = Double.parseDouble(poi.get("noorLat").asText());
-        double longitude = Double.parseDouble(poi.get("noorLon").asText());
-        
-        return new GeoPoint(latitude, longitude);
     }
     
-    // 좌표 정보를 담는 내부 클래스
-    private static class GeoPoint {
-        private final double latitude;
-        private final double longitude;
+    private static JsonNode calculateRoute(double startLat, double startLon, 
+                                         double endLat, double endLon, 
+                                         String apiKey) throws Exception {
+        String urlStr = "https://apis.openapi.sk.com/tmap/routes?version=1";
+        URL url = new URL(urlStr);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         
-        public GeoPoint(double latitude, double longitude) {
-            this.latitude = latitude;
-            this.longitude = longitude;
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Accept", "application/json");
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("appKey", apiKey);
+        conn.setDoOutput(true);
+        
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode requestBody = mapper.createObjectNode();
+        requestBody.put("startX", startLon);
+        requestBody.put("startY", startLat);
+        requestBody.put("endX", endLon);
+        requestBody.put("endY", endLat);
+        requestBody.put("reqCoordType", "WGS84GEO");
+        requestBody.put("resCoordType", "WGS84GEO");
+        
+        try (OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream())) {
+            writer.write(requestBody.toString());
+            writer.flush();
         }
         
-        public double getLatitude() {
-            return latitude;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            
+            JsonNode jsonResponse = mapper.readTree(response.toString());
+            return jsonResponse.get("features").get(0).get("properties");
         }
-        
-        public double getLongitude() {
-            return longitude;
-        }
-    } 
+    }
     //>>> Clean Arch / Port Method
 
     //<<< Clean Arch / Port Method
