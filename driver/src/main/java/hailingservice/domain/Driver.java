@@ -145,8 +145,6 @@ public class Driver {
                 driverToUpdate.setOperationRequestForm(
                     "승객 위치: " +  gpsBasedLocationConfirmed.getPassengerLocation() +
                     "목적지: " + gpsBasedLocationConfirmed.getDestination() +
-                    "예상 거리: " + gpsBasedLocationConfirmed.getEstimatedDistance() +
-                    "예상 시간: " + gpsBasedLocationConfirmed.getEstimatedTime()
                 );
                 repository().save(driverToUpdate);
             }
@@ -182,9 +180,7 @@ public class Driver {
     //>>> Clean Arch / Port Method
 
     //<<< Clean Arch / Port Method
-    public static void servePassengerBoardingLocation(
-        DriverMatched driverMatched
-    ) {
+    public static void servePassengerBoardingLocation(DriverMatched driverMatched) {
         
         
         ObjectMapper mapper = new ObjectMapper();
@@ -192,7 +188,8 @@ public class Driver {
 
         repository().findById(Long.valueOf(matchingMap.get("id").toString())).ifPresent(driver->{
             
-            // driver.setOperationInfo(출발지 ~ 운전자 현재위치간 거리 및 시간안내 관련 logic 추가)
+            // driver.setOperationInfo(승객위치 ~ 현재위치 거리 시간 작성 필요);
+                
             repository().save(driver);
 
 
