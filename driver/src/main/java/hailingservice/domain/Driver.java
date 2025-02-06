@@ -36,6 +36,8 @@ public class Driver {
 
     private String operationInfo;
 
+    private Long operationRequestId;
+
     @PostPersist
     public void onPostPersist() {
         DriverRegistered driverRegistered = new DriverRegistered(this);

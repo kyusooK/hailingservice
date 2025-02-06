@@ -23,6 +23,7 @@
             <String label="운전자현재위치" v-model="value.driverLocation" :editMode="editMode" :inputUI="''"/>
             <String label="차량호출요청서" v-model="value.operationRequestForm" :editMode="editMode" :inputUI="''"/>
             <String label="운행정보" v-model="value.operationInfo" :editMode="editMode" :inputUI="''"/>
+            <Number label="OperationRequestId" v-model="value.operationRequestId" :editMode="editMode" :inputUI="''"/>
         </v-card-text>
 
         <v-card-actions style="background-color: white;">

@@ -74,6 +74,7 @@
                     { text: "driverLocation", value: "driverLocation" },
                     { text: "operationRequestForm", value: "operationRequestForm" },
                     { text: "operationInfo", value: "operationInfo" },
+                    { text: "operationRequestId", value: "operationRequestId" },
                 ],
             driver : [],
             newValue: {},
@@ -98,6 +99,7 @@
                 'driverLocation': '',
                 'operationRequestForm': '',
                 'operationInfo': '',
+                'operationRequestId': 0,
             }
         },
         methods: {
