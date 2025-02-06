@@ -16,6 +16,8 @@ import DispatchMatchingDetail from "./components/listers/DispatchMatchingDetail"
 import DriverDriverManager from "./components/listers/DriverDriverCards"
 import DriverDriverDetail from "./components/listers/DriverDriverDetail"
 
+import GetDriverLocationView from "./components/GetDriverLocationView"
+import GetDriverLocationViewDetail from "./components/GetDriverLocationViewDetail"
 
 import OperationRecordView from "./components/OperationRecordView"
 import OperationRecordViewDetail from "./components/OperationRecordViewDetail"
@@ -67,6 +69,16 @@ export default new Router({
                 component: DriverDriverDetail
             },
 
+            {
+                path: '/drivers/getDriverLocations',
+                name: 'GetDriverLocationView',
+                component: GetDriverLocationView
+            },
+            {
+                path: '/drivers/getDriverLocations/:id',
+                name: 'GetDriverLocationViewDetail',
+                component: GetDriverLocationViewDetail
+            },
 
             {
                 path: '/operationstatistics/operationRecords',

@@ -20,7 +20,7 @@ spring:
         - id: driver
           uri: http://localhost:8084
           predicates:
-            - Path=/drivers/**, 
+            - Path=/drivers/**, /getDriverLocations/**
         - id: operationstatistics
           uri: http://localhost:8085
           predicates:

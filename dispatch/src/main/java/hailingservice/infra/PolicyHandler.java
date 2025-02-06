@@ -72,6 +72,10 @@ public class PolicyHandler {
             "\n\n"
         );
 
+        // REST Request Sample
+
+        // getDriverLocationService.getGetDriverLocation(/** mapping value needed */);
+
         // Sample Logic //
         Matching.confirmGpsBasedLocation(event);
     }
