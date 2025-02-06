@@ -62,6 +62,7 @@ public class Matching {
     public static void confirmGpsBasedLocation(CarHailing carHailing) {
         try {
             ObjectMapper mapper = new ObjectMapper();
+            Map<Long, Object> operationMap = mapper.convertValue(operated.getDriverId(), Map.class);
             String apiKey = "BIwUJL1VBo3lanAgKYxGQ7egeR1SP8iD7UqIbYpN";
             
             // 1. 승객 주소를 좌표로 변환
@@ -70,7 +71,7 @@ public class Matching {
             double passengerLon = Double.parseDouble(passengerCoordinates.get("noorLon").asText());
             
             // 2. 드라이버 주소를 좌표로 변환
-            JsonNode driverCoordinates = convertAddressToCoordinate("경기도 안산시 단원구 고잔동 527-1", apiKey);
+            JsonNode driverCoordinates = convertAddressToCoordinate(carHailing.getDestination(), apiKey);
             double driverLat = Double.parseDouble(driverCoordinates.get("noorLat").asText());
             double driverLon = Double.parseDouble(driverCoordinates.get("noorLon").asText());
             
@@ -80,6 +81,7 @@ public class Matching {
             // 4. Matching 엔티티 생성 및 저장
             Matching matching = new Matching();
             matching.setPassengerLocation(carHailing.getPassengerLocation());
+            matching.setDestination(carHailing.getDestination());
             matching.setEstimatedTime(routeProperties.get("totalTime").asInt());
             matching.setEstimatedDistance(routeProperties.get("totalDistance").asInt());
             
