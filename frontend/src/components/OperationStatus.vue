@@ -31,7 +31,7 @@
             label: String,
         },
         data: () => ({
-            operationStatusList : [ "OPERATED",  "DONE", ],
+            operationStatusList : [ "WAITING",  "OPERATED",  "DONE", ],
             newValue: '',
         }),
         async created() {
