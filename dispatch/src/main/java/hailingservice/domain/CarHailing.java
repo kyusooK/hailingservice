@@ -14,6 +14,7 @@ public class CarHailing extends AbstractEvent {
     private Long id;
     private String passengerLocation;
     private UserId userId;
+    private String destination;
 
     public CarHailing(Operation aggregate) {
         super(aggregate);
