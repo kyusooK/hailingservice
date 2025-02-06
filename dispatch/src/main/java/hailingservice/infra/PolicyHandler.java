@@ -75,5 +75,21 @@ public class PolicyHandler {
         // Sample Logic //
         Matching.confirmGpsBasedLocation(event);
     }
+
+    @StreamListener(
+        value = KafkaProcessor.INPUT,
+        condition = "headers['type']=='HailingAccepted'"
+    )
+    public void wheneverHailingAccepted_RegisterDriver(
+        @Payload HailingAccepted hailingAccepted
+    ) {
+        HailingAccepted event = hailingAccepted;
+        System.out.println(
+            "\n\n##### listener RegisterDriver : " + hailingAccepted + "\n\n"
+        );
+
+        // Sample Logic //
+        Operation.registerDriver(event);
+    }
 }
 //>>> Clean Arch / Inbound Adaptor
