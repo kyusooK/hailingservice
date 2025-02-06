@@ -12,6 +12,12 @@ public class OperationHateoasProcessor
 
     @Override
     public EntityModel<Operation> process(EntityModel<Operation> model) {
+        model.add(
+            Link
+                .of(model.getRequiredLink("self").getHref() + "/operate")
+                .withRel("operate")
+        );
+
         return model;
     }
 }
