@@ -95,7 +95,8 @@ public class Matching {
 
         repository().findById(hailingAccepted.getOperationRequestId()).ifPresent(matching->{
 
-            drivet.setDriverId(hailingAccepted.getId());
+            matching.setDriverId(hailingAccepted.getId());
+            matching.setDriverLocation
             DriverMatched driverMatched = new DriverMatched(matching);
             driverMatched.publishAfterCommit();
 
