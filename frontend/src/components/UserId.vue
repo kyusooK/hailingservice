@@ -8,7 +8,7 @@
             <v-card>
                 <v-card-title>User</v-card-title>
                 <v-card-text>
-                    <UserPicker v-model="value" @selected="pick"/>
+                    <UserUserPicker v-model="value" @selected="pick"/>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>

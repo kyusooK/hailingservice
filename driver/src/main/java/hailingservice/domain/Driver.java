@@ -1,19 +1,21 @@
 package hailingservice.domain;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import hailingservice.DriverApplication;
-import hailingservice.domain.DriverDisapproved;
-import hailingservice.domain.DriverRegistered;
-import hailingservice.domain.HailingRejected;
-import hailingservice.domain.Tmap;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.*;
-import lombok.Data;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import hailingservice.DriverApplication;
+import lombok.Data;
 
 @Entity
 @Table(name = "Driver_table")
@@ -99,21 +101,19 @@ public class Driver {
 
     //<<< Clean Arch / Port Method
     public static void hailDriver(GpsBasedLocationConfirmed gpsBasedLocationConfirmed) {
-        ObjectMapper mapper = new ObjectMapper();
         String passengerLocation = gpsBasedLocationConfirmed.getPassengerLocation();
         String apiKey = "BIwUJL1VBo3lanAgKYxGQ7egeR1SP8iD7UqIbYpN"; // API 키
 
-        // 1. isHailing이 true인 모든 드라이버 조회
+        // 호출 요청 여부 상태가 true인 모든 운전자 조회
         List<Driver> availableDrivers = repository().findByIsHailingTrue();
         
         Driver closestDriver = null;
         double closestDistance = Double.MAX_VALUE;
 
-        // 2. 각 드라이버의 위치와 승객 위치 간의 거리 계산
+        // 각 운전자의 현재 위치와 승객 위치 간의 거리 계산
         for (Driver driver : availableDrivers) {
-            // 드라이버의 위치를 좌표로 변환
             try {
-                // 드라이버의 위치를 좌표로 변환
+                // 운전자 위치를 좌표로 변환
                 JsonNode driverCoordinates = Tmap.convertAddressToCoordinate(driver.getDriverLocation(), apiKey);
                 double driverLat = driverCoordinates.get("noorLat").asDouble();
                 double driverLon = driverCoordinates.get("noorLon").asDouble();
@@ -123,7 +123,7 @@ public class Driver {
                 double passengerLat = passengerCoordinates.get("noorLat").asDouble();
                 double passengerLon = passengerCoordinates.get("noorLon").asDouble();
     
-                // 거리 계산
+                // 운전자 ~ 승객 간의 거리 계산
                 JsonNode routeProperties = Tmap.calculateRoute(passengerLat, passengerLon, driverLat, driverLon, apiKey);
                 double distance = routeProperties.get("totalDistance").asDouble();
     
@@ -137,17 +137,17 @@ public class Driver {
             }
         }
 
-        // 3. 가장 가까운 드라이버에게 operationRequestForm 정보 저장
+        // 가장 가까운 운전자를 찾은 후 호출요청서 정보 저장
         if (closestDriver != null) {
             // 해당 드라이버를 repository에서 다시 조회하여 업데이트
-            Driver driverToUpdate = repository().findById(closestDriver.getId()).orElse(null);
-            if (driverToUpdate != null) {
-                driverToUpdate.setOperationRequestId(gpsBasedLocationConfirmed.getId());
-                driverToUpdate.setOperationRequestForm(
+            Driver driver = repository().findById(closestDriver.getId()).orElse(null);
+            if (driver != null) {
+                driver.setOperationRequestId(gpsBasedLocationConfirmed.getId());
+                driver.setOperationRequestForm(
                     "차량 호출 요청 정보입니다." +
                     " 승객 위치: " +  gpsBasedLocationConfirmed.getPassengerLocation() +
                     " 목적지: " + gpsBasedLocationConfirmed.getDestination());
-                repository().save(driverToUpdate);
+                repository().save(driver);
             }
         }
     }
