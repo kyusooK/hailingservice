@@ -41,31 +41,20 @@ public class User {
 
     //<<< Clean Arch / Port Method
     public static void serveDriverInfo(DriverMatched driverMatched) {
-        //implement business logic here:
-
-        /** Example 1:  new item 
-        User user = new User();
-        repository().save(user);
-
-        */
-
-        /** Example 2:  finding and process
         
-        // if driverMatched.tmapIddriverIduserId exists, use it
         
-        // ObjectMapper mapper = new ObjectMapper();
-        // Map<, Object> matchingMap = mapper.convertValue(driverMatched.getTmapId(), Map.class);
-        // Map<Long, Object> matchingMap = mapper.convertValue(driverMatched.getDriverId(), Map.class);
-        // Map<Long, Object> matchingMap = mapper.convertValue(driverMatched.getUserId(), Map.class);
+        ObjectMapper mapper = new ObjectMapper();
+        Map<Long, Object> matchingUserMap = mapper.convertValue(driverMatched.getUserId(), Map.class);
 
-        repository().findById(driverMatched.get???()).ifPresent(user->{
+        repository().findById(Long.valueOf(matchingUserMap.get("id").toString())).ifPresent(user->{
             
-            user // do something
+            user.setMessage(
+                "차량 호출이 수락되었습니다. " +
+                "기사님 위치: " + driverMatched.getDriverLocation() +
+                "도착 예상 시간: " + driverMatched.getEstimatedTime());
             repository().save(user);
 
-
-         });
-        */
+        });
 
     }
     //>>> Clean Arch / Port Method

@@ -48,7 +48,7 @@ public class Operation {
 
         repository().findById(this.getId()).ifPresent(operation ->{
             if(operation.getOperationStatus() == OperationStatus.OPERATED){
-
+                
                 Operated operated = new Operated(this);
                 operated.publishAfterCommit();
 

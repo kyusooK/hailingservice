@@ -142,10 +142,10 @@ public class Driver {
             // 해당 드라이버를 repository에서 다시 조회하여 업데이트
             Driver driverToUpdate = repository().findById(closestDriver.getId()).orElse(null);
             if (driverToUpdate != null) {
+                driverToUpdate.setOperationRequestId(gpsBasedLocationConfirmed.getId());
                 driverToUpdate.setOperationRequestForm(
                     "승객 위치: " +  gpsBasedLocationConfirmed.getPassengerLocation() +
-                    "목적지: " + gpsBasedLocationConfirmed.getDestination() +
-                );
+                    "목적지: " + gpsBasedLocationConfirmed.getDestination());
                 repository().save(driverToUpdate);
             }
         }
@@ -153,13 +153,12 @@ public class Driver {
 
     //>>> Clean Arch / Port Method
     //<<< Clean Arch / Port Method
-    public void acceptCarhailing(AcceptCarhailingCommand acceptCarhailingCommand) {
+    public void acceptCarhailing() {
 
         repository().findById(this.getId()).ifPresent(driver -> {
             if(driver.getIsHailing() == true){
 
                 driver.setIsHailing(false);
-                driver.setOperationRequestId(acceptCarhailing.getId());
                 repository().save(driver);
 
                 HailingAccepted hailingAccepted = new HailingAccepted(this);
@@ -167,7 +166,7 @@ public class Driver {
 
             }else{
 
-                driver.setIsHailing(acceptCarhailingCommand.getIsHailing());
+                driver.setIsHailing(false);
                 repository().save(driver);
 
                 HailingRejected hailingRejected = new HailingRejected(this);
@@ -188,8 +187,10 @@ public class Driver {
 
         repository().findById(Long.valueOf(matchingMap.get("id").toString())).ifPresent(driver->{
             
-            // driver.setOperationInfo(승객위치 ~ 현재위치 거리 시간 작성 필요);
-                
+            driver.setOperationInfo(
+                "승객 위치: " + driverMatched.getPassengerLocation() +
+                "예상 거리: " + driverMatched.getEstimatedDistance() +
+                "예상 시간: " + driverMatched.getEstimatedTime());
             repository().save(driver);
 
 
@@ -206,7 +207,11 @@ public class Driver {
 
         repository().findById(Long.valueOf(matchingMap.get("id").toString())).ifPresent(driver->{
             
-            // driver.setOperationInfo(출발지 ~ 목적지 거리 및 시간안내 관련 logic 추가)
+            driver.setOperationInfo(
+                "출발 위치: " + destinationCalculated.getPassengerLocation() +
+                "목적지: " + destinationCalculated.getDestination() +
+                "예상 거리: " + destinationCalculated.getEstimatedDistance() +
+                "예상 시간: " + destinationCalculated.getEstimatedTime());
             repository().save(driver);
 
          });
