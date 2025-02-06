@@ -161,6 +161,7 @@ public class Driver {
             if(driver.getIsHailing() == true){
 
                 driver.setIsHailing(false);
+                driver.setOperationRequestId(acceptCarhailing.getId());
                 repository().save(driver);
 
                 HailingAccepted hailingAccepted = new HailingAccepted(this);
