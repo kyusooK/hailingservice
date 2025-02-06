@@ -26,6 +26,9 @@
             <div>
                 <String label="OperationInfo" v-model="item.operationInfo" :editMode="editMode" @change="change" />
             </div>
+            <div>
+                <Number label="OperationRequestId" v-model="item.operationRequestId" :editMode="editMode" @change="change" />
+            </div>
         </v-card-text>
 
         <v-card-actions>
