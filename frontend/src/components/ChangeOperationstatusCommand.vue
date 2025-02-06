@@ -1,26 +1,28 @@
 <template>
     <v-card outlined>
         <v-card-title>
-            Delete
+            ChangeOperationstatus
         </v-card-title>
 
         <v-card-text>
+            <Boolean label="IsHailing" v-model="value.isHailing" :editMode="editMode"/>
+            <String label="DriverLocation" v-model="value.driverLocation" :editMode="editMode"/>
         </v-card-text>
 
         <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
-                color="primary"
-                text
-                @click="deleteFile"
+                    color="primary"
+                    text
+                    @click="changeOperationstatus"
             >
-                Delete
+                ChangeOperationstatus
             </v-btn>
             
             <v-btn
-                color="primary"
-                text
-                @click="close"
+                    color="primary"
+                    text
+                    @click="close"
             >
                 Close
             </v-btn>
@@ -32,7 +34,7 @@
 <script>
    
     export default {
-        name: 'DeleteCommand',
+        name: 'ChangeOperationstatusCommand',
         components:{},
         props: {},
         data: () => ({
@@ -40,12 +42,14 @@
             value: {},
         }),
         created() {
+            this.value.isHailing = false;
+            this.value.driverLocation = '';
         },
         watch: {
         },
         methods: {
-            deleteFile() {
-                this.$emit('delete', this.value);
+            changeOperationstatus() {
+                this.$emit('changeOperationstatus', this.value);
             },
             close() {
                 this.$emit('closeDialog');

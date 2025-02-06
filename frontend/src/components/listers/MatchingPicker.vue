@@ -26,6 +26,18 @@
                             <v-list-item-subtitle>
                                 UserId :  {{item.userId }}
                             </v-list-item-subtitle>
+                            <v-list-item-subtitle>
+                                Latitude :  {{item.latitude }}
+                            </v-list-item-subtitle>
+                            <v-list-item-subtitle>
+                                Longitude :  {{item.longitude }}
+                            </v-list-item-subtitle>
+                            <v-list-item-subtitle>
+                                EstimatedTime :  {{item.estimatedTime }}
+                            </v-list-item-subtitle>
+                            <v-list-item-subtitle>
+                                EstimatedDistance :  {{item.estimatedDistance }}
+                            </v-list-item-subtitle>
                         </v-list-item-content>
 
                         <v-list-item-action>
@@ -77,6 +89,14 @@
                 if(val != undefined) {
                     var arr = this.list[val]._links.self.href.split('/');
                     obj['id'] = arr[4]; 
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                     
                     
                     

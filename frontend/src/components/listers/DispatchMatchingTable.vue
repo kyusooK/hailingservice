@@ -71,6 +71,10 @@
                     { text: "passengerLocation", value: "passengerLocation" },
                     { text: "driverId", value: "driverId" },
                     { text: "userId", value: "userId" },
+                    { text: "latitude", value: "latitude" },
+                    { text: "longitude", value: "longitude" },
+                    { text: "estimatedTime", value: "estimatedTime" },
+                    { text: "estimatedDistance", value: "estimatedDistance" },
                 ],
             matching : [],
             newValue: {},
@@ -92,6 +96,10 @@
                 'passengerLocation': '',
                 'driverId': {},
                 'userId': {},
+                'latitude': 0,
+                'longitude': 0,
+                'estimatedTime': 0,
+                'estimatedDistance': 0,
             }
         },
         methods: {

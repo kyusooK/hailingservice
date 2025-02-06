@@ -108,6 +108,10 @@
                 'passengerLocation': '',
                 'driverId': {},
                 'userId': {},
+                'latitude': 0,
+                'longitude': 0,
+                'estimatedTime': 0,
+                'estimatedDistance': 0,
             }
         },
         methods:{

@@ -9,20 +9,17 @@ import lombok.*;
 //<<< DDD / Domain Event
 @Data
 @ToString
-public class DriverMatched extends AbstractEvent {
+public class OperationStatusChanged extends AbstractEvent {
 
     private Long id;
-    private DriverId driverId;
-    private String passengerLocation;
-    private UserId userId;
-    private Integer estimatedTime;
-    private Integer estimatedDistance;
+    private Boolean isHailing;
+    private String driverLocation;
 
-    public DriverMatched(Matching aggregate) {
+    public OperationStatusChanged(Driver aggregate) {
         super(aggregate);
     }
 
-    public DriverMatched() {
+    public OperationStatusChanged() {
         super();
     }
 }

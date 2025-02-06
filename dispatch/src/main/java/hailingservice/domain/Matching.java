@@ -32,6 +32,14 @@ public class Matching {
     @Embedded
     private UserId userId;
 
+    private Double latitude;
+
+    private Double longitude;
+
+    private Integer estimatedTime;
+
+    private Integer estimatedDistance;
+
     public static MatchingRepository repository() {
         MatchingRepository matchingRepository = DispatchApplication.applicationContext.getBean(
             MatchingRepository.class

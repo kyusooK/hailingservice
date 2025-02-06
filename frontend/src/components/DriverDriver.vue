@@ -85,6 +85,20 @@
                     @acceptCarhailing="acceptCarhailing"
                 ></AcceptCarhailingCommand>
             </v-dialog>
+            <v-btn
+                v-if="!editMode"
+                color="primary"
+                text
+                @click="openChangeOperationstatus"
+            >
+                ChangeOperationstatus
+            </v-btn>
+            <v-dialog v-model="changeOperationstatusDiagram" width="500">
+                <ChangeOperationstatusCommand
+                    @closeDialog="closeChangeOperationstatus"
+                    @changeOperationstatus="changeOperationstatus"
+                ></ChangeOperationstatusCommand>
+            </v-dialog>
         </v-card-actions>
 
         <v-snackbar
@@ -123,6 +137,7 @@
                 text: '',
             },
             acceptCarhailingDiagram: false,
+            changeOperationstatusDiagram: false,
         }),
 	async created() {
         },
@@ -264,6 +279,32 @@
             },
             closeAcceptCarhailing() {
                 this.acceptCarhailingDiagram = false;
+            },
+            async changeOperationstatus(params) {
+                try {
+                    if(!this.offline) {
+                        var temp = await axios.put(axios.fixUrl(this.value._links['changeoperationstatus'].href), params)
+                        for(var k in temp.data) {
+                            this.value[k]=temp.data[k];
+                        }
+                    }
+
+                    this.editMode = false;
+                    this.closeChangeOperationstatus();
+                } catch(e) {
+                    this.snackbar.status = true
+                    if(e.response && e.response.data.message) {
+                        this.snackbar.text = e.response.data.message
+                    } else {
+                        this.snackbar.text = e
+                    }
+                }
+            },
+            openChangeOperationstatus() {
+                this.changeOperationstatusDiagram = true;
+            },
+            closeChangeOperationstatus() {
+                this.changeOperationstatusDiagram = false;
             },
         },
     }

@@ -41,11 +41,14 @@ public class Driver {
         DriverRegistered driverRegistered = new DriverRegistered(this);
         driverRegistered.publishAfterCommit();
 
-        DriverDisapproved driverDisapproved = new DriverDisapproved(this);
-        driverDisapproved.publishAfterCommit();
-
         HailingRejected hailingRejected = new HailingRejected(this);
         hailingRejected.publishAfterCommit();
+    }
+
+    @PostUpdate
+    public void onPostUpdate() {
+        DriverDisapproved driverDisapproved = new DriverDisapproved(this);
+        driverDisapproved.publishAfterCommit();
     }
 
     public static DriverRepository repository() {
@@ -72,6 +75,19 @@ public class Driver {
 
         HailingAccepted hailingAccepted = new HailingAccepted(this);
         hailingAccepted.publishAfterCommit();
+    }
+
+    //>>> Clean Arch / Port Method
+    //<<< Clean Arch / Port Method
+    public void changeOperationstatus(
+        ChangeOperationstatusCommand changeOperationstatusCommand
+    ) {
+        //implement business logic here:
+
+        OperationStatusChanged operationStatusChanged = new OperationStatusChanged(
+            this
+        );
+        operationStatusChanged.publishAfterCommit();
     }
 
     //>>> Clean Arch / Port Method
