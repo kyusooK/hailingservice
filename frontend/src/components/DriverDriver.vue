@@ -75,16 +75,10 @@
                 v-if="!editMode"
                 color="primary"
                 text
-                @click="openAcceptCarhailing"
+                @click="acceptCarhailing"
             >
                 AcceptCarhailing
             </v-btn>
-            <v-dialog v-model="acceptCarhailingDiagram" width="500">
-                <AcceptCarhailingCommand
-                    @closeDialog="closeAcceptCarhailing"
-                    @acceptCarhailing="acceptCarhailing"
-                ></AcceptCarhailingCommand>
-            </v-dialog>
             <v-btn
                 v-if="!editMode"
                 color="primary"
@@ -136,7 +130,6 @@
                 timeout: 5000,
                 text: '',
             },
-            acceptCarhailingDiagram: false,
             changeOperationstatusDiagram: false,
         }),
 	async created() {
@@ -254,17 +247,16 @@
                     }
                 }
             },
-            async acceptCarhailing(params) {
+            async acceptCarhailing() {
                 try {
                     if(!this.offline) {
-                        var temp = await axios.put(axios.fixUrl(this.value._links['acceptcarhailing'].href), params)
+                        var temp = await axios.put(axios.fixUrl(this.value._links['acceptcarhailing'].href))
                         for(var k in temp.data) {
                             this.value[k]=temp.data[k];
                         }
                     }
 
                     this.editMode = false;
-                    this.closeAcceptCarhailing();
                 } catch(e) {
                     this.snackbar.status = true
                     if(e.response && e.response.data.message) {
@@ -273,12 +265,6 @@
                         this.snackbar.text = e
                     }
                 }
-            },
-            openAcceptCarhailing() {
-                this.acceptCarhailingDiagram = true;
-            },
-            closeAcceptCarhailing() {
-                this.acceptCarhailingDiagram = false;
             },
             async changeOperationstatus(params) {
                 try {
