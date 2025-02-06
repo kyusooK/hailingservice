@@ -24,6 +24,7 @@
             <Number label="경도" v-model="value.longitude" :editMode="editMode" :inputUI="''"/>
             <Number label="예상시간" v-model="value.estimatedTime" :editMode="editMode" :inputUI="''"/>
             <Number label="예상거리" v-model="value.estimatedDistance" :editMode="editMode" :inputUI="''"/>
+            <String label="운전자위치" v-model="value.driverLocation" :editMode="editMode" :inputUI="''"/>
         </v-card-text>
 
         <v-card-actions style="background-color: white;">

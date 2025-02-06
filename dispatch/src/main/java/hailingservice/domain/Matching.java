@@ -43,6 +43,8 @@ public class Matching {
 
     private Integer estimatedDistance;
 
+    private String driverLocation;
+
     public static MatchingRepository repository() {
         MatchingRepository matchingRepository = DispatchApplication.applicationContext.getBean(
             MatchingRepository.class
