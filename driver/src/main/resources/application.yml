@@ -45,6 +45,10 @@ logging:
     org.hibernate.type: trace
     org.springframework.cloud: debug
 
+api:
+  url: 
+    driver: localhost:8084 
+    
 
 server:
   port: 8084
@@ -81,4 +85,8 @@ spring:
           destination: hailingservice
           contentType: application/json
 
+api:
+  url: 
+    driver: driver:8080 
+    
 

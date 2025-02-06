@@ -1,69 +1,104 @@
 package hailingservice.domain;
 
+import hailingservice.domain.DriverRegistered;
+import hailingservice.domain.HailingRejected;
+import hailingservice.domain.DriverDisapproved;
+import hailingservice.DriverApplication;
+import javax.persistence.*;
 import java.util.List;
+import lombok.Data;
+import java.util.Date;
+import java.time.LocalDate;
 import java.util.Map;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PostPersist;
-import javax.persistence.PostUpdate;
-import javax.persistence.Table;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import hailingservice.DriverApplication;
-import lombok.Data;
-
 @Entity
-@Table(name = "Driver_table")
+@Table(name="Driver_table")
 @Data
+
 //<<< DDD / Aggregate Root
-public class Driver {
+public class Driver  {
 
+
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    
+    
+    
+    
     private Long id;
-
+    
+    
+    
+    
     private String email;
-
+    
+    
+    
+    
     private String driverLicenseNumber;
-
+    
+    
+    
+    
     private Boolean isApproved;
-
+    
+    
+    
+    
     private Boolean isHailing;
-
+    
+    
+    
+    
     private String driverLocation;
-
+    
+    
+    
+    
     private String operationRequestForm;
-
+    
+    
+    
+    
     private String operationInfo;
-
+    
+    
+    
+    
     private Long operationRequestId;
 
     @PostPersist
-    public void onPostPersist() {
+    public void onPostPersist(){
+
+
         DriverRegistered driverRegistered = new DriverRegistered(this);
         driverRegistered.publishAfterCommit();
     }
-
+    
     @PostUpdate
-    public void onPostUpdate() {
+    public void onPostUpdate(){
+
+
         DriverDisapproved driverDisapproved = new DriverDisapproved(this);
         driverDisapproved.publishAfterCommit();
+
+    
     }
 
-    public static DriverRepository repository() {
-        DriverRepository driverRepository = DriverApplication.applicationContext.getBean(
-            DriverRepository.class
-        );
+    public static DriverRepository repository(){
+        DriverRepository driverRepository = DriverApplication.applicationContext.getBean(DriverRepository.class);
         return driverRepository;
     }
 
-    //<<< Clean Arch / Port Method
-    public void confirmLicense() {
+
+
+//<<< Clean Arch / Port Method
+    public void confirmLicense(){
+        
         //implement business logic here:
         repository().findById(this.getId()).ifPresent(driver -> {
             if (driver.getDriverLicenseNumber() != null && driver.getDriverLicenseNumber().length() == 12) {
@@ -176,6 +211,7 @@ public class Driver {
         });
       
     }
+//>>> Clean Arch / Port Method
 
     //>>> Clean Arch / Port Method
 
@@ -198,6 +234,7 @@ public class Driver {
 
          });
 
+        
     }
 
     //>>> Clean Arch / Port Method
@@ -219,8 +256,10 @@ public class Driver {
 
          });
 
+        
     }
-    //>>> Clean Arch / Port Method
+//>>> Clean Arch / Port Method
+
 
 }
 //>>> DDD / Aggregate Root

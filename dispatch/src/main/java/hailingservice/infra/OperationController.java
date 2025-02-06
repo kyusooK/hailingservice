@@ -19,5 +19,29 @@ public class OperationController {
 
     @Autowired
     OperationRepository operationRepository;
+
+    @RequestMapping(
+        value = "/operations/{id}/operate",
+        method = RequestMethod.PUT,
+        produces = "application/json;charset=UTF-8"
+    )
+    public Operation operate(
+        @PathVariable(value = "id") Long id,
+        @RequestBody OperateCommand operateCommand,
+        HttpServletRequest request,
+        HttpServletResponse response
+    ) throws Exception {
+        System.out.println("##### /operation/operate  called #####");
+        Optional<Operation> optionalOperation = operationRepository.findById(
+            id
+        );
+
+        optionalOperation.orElseThrow(() -> new Exception("No Entity Found"));
+        Operation operation = optionalOperation.get();
+        operation.operate(operateCommand);
+
+        operationRepository.save(operation);
+        return operation;
+    }
 }
 //>>> Clean Arch / Inbound Adaptor

@@ -45,13 +45,6 @@
                     text
                     @click="save"
                 >
-                    운행
-                </v-btn>
-                <v-btn
-                    color="primary"
-                    text
-                    @click="save"
-                >
                     운행 완료
                 </v-btn>
             </div>
@@ -75,6 +68,20 @@
         </v-card-actions>
         <v-card-actions>
             <v-spacer></v-spacer>
+            <v-btn
+                v-if="!editMode"
+                color="primary"
+                text
+                @click="openOperate"
+            >
+                Operate
+            </v-btn>
+            <v-dialog v-model="operateDiagram" width="500">
+                <OperateCommand
+                    @closeDialog="closeOperate"
+                    @operate="operate"
+                ></OperateCommand>
+            </v-dialog>
         </v-card-actions>
         <payment v-if="!editMode" serviceType="pay"/>
         <review-app>
@@ -120,7 +127,8 @@
             },
             reviewData: {
                 userId: "사용자"
-            }
+            },
+            operateDiagram: false,
         }),
 	async created() {
             if(!this.reviewData.itemId){
@@ -221,6 +229,32 @@
             },
             change(){
                 this.$emit('input', this.value);
+            },
+            async operate(params) {
+                try {
+                    if(!this.offline) {
+                        var temp = await axios.put(axios.fixUrl(this.value._links['operate'].href), params)
+                        for(var k in temp.data) {
+                            this.value[k]=temp.data[k];
+                        }
+                    }
+
+                    this.editMode = false;
+                    this.closeOperate();
+                } catch(e) {
+                    this.snackbar.status = true
+                    if(e.response && e.response.data.message) {
+                        this.snackbar.text = e.response.data.message
+                    } else {
+                        this.snackbar.text = e
+                    }
+                }
+            },
+            openOperate() {
+                this.operateDiagram = true;
+            },
+            closeOperate() {
+                this.operateDiagram = false;
             },
         },
     }
