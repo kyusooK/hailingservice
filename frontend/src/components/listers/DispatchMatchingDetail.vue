@@ -13,6 +13,18 @@
             </div>
             <DriverId offline label="DriverId" v-model="item.driverId" :editMode="false" :key="false" @change="change" />
             <UserId offline label="UserId" v-model="item.userId" :editMode="false" :key="false" @change="change" />
+            <div>
+                <Number label="Latitude" v-model="item.latitude" :editMode="editMode" @change="change" />
+            </div>
+            <div>
+                <Number label="Longitude" v-model="item.longitude" :editMode="editMode" @change="change" />
+            </div>
+            <div>
+                <Number label="EstimatedTime" v-model="item.estimatedTime" :editMode="editMode" @change="change" />
+            </div>
+            <div>
+                <Number label="EstimatedDistance" v-model="item.estimatedDistance" :editMode="editMode" @change="change" />
+            </div>
         </v-card-text>
 
         <v-card-actions>

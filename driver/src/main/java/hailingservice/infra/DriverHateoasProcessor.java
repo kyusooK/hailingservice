@@ -25,6 +25,14 @@ public class DriverHateoasProcessor
                 )
                 .withRel("acceptcarhailing")
         );
+        model.add(
+            Link
+                .of(
+                    model.getRequiredLink("self").getHref() +
+                    "/changeoperationstatus"
+                )
+                .withRel("changeoperationstatus")
+        );
 
         return model;
     }

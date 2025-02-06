@@ -42,6 +42,12 @@ public class Driver {
         driverRegistered.publishAfterCommit();
     }
 
+    @PostUpdate
+    public void onPostUpdate() {
+        DriverDisapproved driverDisapproved = new DriverDisapproved(this);
+        driverDisapproved.publishAfterCommit();
+    }
+
     public static DriverRepository repository() {
         DriverRepository driverRepository = DriverApplication.applicationContext.getBean(
             DriverRepository.class
@@ -112,6 +118,19 @@ public class Driver {
             }
         });
       
+    }
+
+    //>>> Clean Arch / Port Method
+    //<<< Clean Arch / Port Method
+    public void changeOperationstatus(
+        ChangeOperationstatusCommand changeOperationstatusCommand
+    ) {
+        //implement business logic here:
+
+        OperationStatusChanged operationStatusChanged = new OperationStatusChanged(
+            this
+        );
+        operationStatusChanged.publishAfterCommit();
     }
 
     //>>> Clean Arch / Port Method

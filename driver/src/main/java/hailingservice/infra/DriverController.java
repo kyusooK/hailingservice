@@ -62,5 +62,27 @@ public class DriverController {
         driverRepository.save(driver);
         return driver;
     }
+
+    @RequestMapping(
+        value = "/drivers/{id}/changeoperationstatus",
+        method = RequestMethod.PUT,
+        produces = "application/json;charset=UTF-8"
+    )
+    public Driver changeOperationstatus(
+        @PathVariable(value = "id") Long id,
+        @RequestBody ChangeOperationstatusCommand changeOperationstatusCommand,
+        HttpServletRequest request,
+        HttpServletResponse response
+    ) throws Exception {
+        System.out.println("##### /driver/changeOperationstatus  called #####");
+        Optional<Driver> optionalDriver = driverRepository.findById(id);
+
+        optionalDriver.orElseThrow(() -> new Exception("No Entity Found"));
+        Driver driver = optionalDriver.get();
+        driver.changeOperationstatus(changeOperationstatusCommand);
+
+        driverRepository.save(driver);
+        return driver;
+    }
 }
 //>>> Clean Arch / Inbound Adaptor

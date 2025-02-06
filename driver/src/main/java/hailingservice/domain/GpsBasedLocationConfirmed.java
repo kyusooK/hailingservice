@@ -13,4 +13,6 @@ public class GpsBasedLocationConfirmed extends AbstractEvent {
     private String destination;
     private String passengerLocation;
     private Object driverId;
+    private Integer estimatedTime;
+    private Integer estimatedDistance;
 }

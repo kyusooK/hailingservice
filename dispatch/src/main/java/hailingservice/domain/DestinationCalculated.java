@@ -15,6 +15,8 @@ public class DestinationCalculated extends AbstractEvent {
     private String passengerLocation;
     private String destination;
     private DriverId driverId;
+    private Integer estimatedTime;
+    private Integer estimatedDistance;
 
     public DestinationCalculated(Matching aggregate) {
         super(aggregate);

@@ -13,4 +13,6 @@ public class DestinationCalculated extends AbstractEvent {
     private String passengerLocation;
     private String destination;
     private Object driverId;
+    private Integer estimatedTime;
+    private Integer estimatedDistance;
 }

@@ -45,6 +45,10 @@
                             
                             
                             
+                            
+                            
+                            
+                            
                         </v-list-item-title>
 
                         <v-list-item-subtitle style="font-size:25px; font-weight:700;">
@@ -53,6 +57,10 @@
                             [ PassengerLocation :  {{data.passengerLocation }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             [ DriverId :  {{data.driverId }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             [ UserId :  {{data.userId }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            [ Latitude :  {{data.latitude }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            [ Longitude :  {{data.longitude }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            [ EstimatedTime :  {{data.estimatedTime }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            [ EstimatedDistance :  {{data.estimatedDistance }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </v-list-item-subtitle>
 
                     </v-list-item-content>
@@ -124,6 +132,10 @@
                 'passengerLocation': '',
                 'driverId': {},
                 'userId': {},
+                'latitude': 0,
+                'longitude': 0,
+                'estimatedTime': 0,
+                'estimatedDistance': 0,
             }
         },
         methods: {
