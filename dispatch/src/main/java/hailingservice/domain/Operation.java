@@ -69,31 +69,5 @@ public class Operation {
         );
         return operationRepository;
     }
-
-    //<<< Clean Arch / Port Method
-    public static void registerDriver(HailingAccepted hailingAccepted) {
-        //implement business logic here:
-
-        /** Example 1:  new item 
-        Operation operation = new Operation();
-        repository().save(operation);
-
-        */
-
-        /** Example 2:  finding and process
-        
-
-        repository().findById(hailingAccepted.get???()).ifPresent(operation->{
-            
-            operation // do something
-            repository().save(operation);
-
-
-         });
-        */
-
-    }
-    //>>> Clean Arch / Port Method
-
 }
 //>>> DDD / Aggregate Root
