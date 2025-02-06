@@ -48,7 +48,6 @@ logging:
 api:
   url: 
     dispatch: localhost:8083 
-    driver: localhost:8084 
     
 
 server:
@@ -89,6 +88,5 @@ spring:
 api:
   url: 
     dispatch: dispatch:8080 
-    driver: driver:8080 
     
 
