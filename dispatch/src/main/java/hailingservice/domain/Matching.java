@@ -73,6 +73,7 @@ public class Matching {
             Matching matching = new Matching();
             matching.setPassengerLocation(carHailing.getPassengerLocation());
             matching.setDestination(carHailing.getDestination());
+            matching.setUserId(carHailing.getUserId());
             matching.setEstimatedTime(routeProperties.get("totalTime").asInt());
             matching.setEstimatedDistance(routeProperties.get("totalDistance").asInt());
             
@@ -91,29 +92,14 @@ public class Matching {
 
     //<<< Clean Arch / Port Method
     public static void matchDriver(HailingAccepted hailingAccepted) {
-        //implement business logic here:
 
-        /** Example 1:  new item 
-        Matching matching = new Matching();
-        repository().save(matching);
+        repository().findById(hailingAccepted.getOperationRequestId()).ifPresent(matching->{
 
-        DriverMatched driverMatched = new DriverMatched(matching);
-        driverMatched.publishAfterCommit();
-        */
-
-        /** Example 2:  finding and process
-        
-
-        repository().findById(hailingAccepted.get???()).ifPresent(matching->{
-            
-            matching // do something
-            repository().save(matching);
-
+            drivet.setDriverId(hailingAccepted.getId());
             DriverMatched driverMatched = new DriverMatched(matching);
             driverMatched.publishAfterCommit();
 
          });
-        */
 
     }
 
