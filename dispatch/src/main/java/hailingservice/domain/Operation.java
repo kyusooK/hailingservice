@@ -18,64 +18,36 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 //<<< DDD / Aggregate Root
 public class Operation  {
-
-
     
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    
-    
-    
-    
     private Long id;
-    
-    
-    
     
     private String passengerLocation;
     
-    
-    
-    
     private String destination;
-    
-    
     
     @Enumerated(EnumType.STRING)
     private OperationStatus operationStatus;
     
-    
-    
     @Embedded
     private UserId userId;
     
-    
-    
     @Embedded
     private DriverId driverId;
-    
-    
-    
     
     private Long fee;
 
     @PostPersist
     public void onPostPersist(){
-
-
         CarHailing carHailing = new CarHailing(this);
         carHailing.publishAfterCommit();
-
-    
     }
+
     @PostUpdate
     public void onPostUpdate(){
-
-
         OperationCompleted operationCompleted = new OperationCompleted(this);
         operationCompleted.publishAfterCommit();
-
-    
     }
 
     public static OperationRepository repository(){
@@ -88,44 +60,20 @@ public class Operation  {
 //<<< Clean Arch / Port Method
     public void operate(OperateCommand operateCommand){
         
-        //implement business logic here:
-        
+        repository().findById(this.getId()).ifPresent(operation->{
+            operation.setOperationStatus(operateCommand.getOperationStatus());
 
-        hailingservice.external.OperationQuery operationQuery = new hailingservice.external.OperationQuery();
-        // operationQuery.set??()        
-          = OperationApplication.applicationContext
-            .getBean(hailingservice.external.Service.class)
-            .operation(operationQuery);
-
-        Operated operated = new Operated(this);
-        operated.publishAfterCommit();
+            Operated operated = new Operated(this);
+            operated.publishAfterCommit();
+        });
     }
-//>>> Clean Arch / Port Method
-
-//<<< Clean Arch / Port Method
     public static void registerDriver(HailingAccepted hailingAccepted){
         
-        //implement business logic here:
-        
-        /** Example 1:  new item 
-        Operation operation = new Operation();
-        repository().save(operation);
-
-        */
-
-        /** Example 2:  finding and process
-        
-
-        repository().findById(hailingAccepted.get???()).ifPresent(operation->{
+        repository().findById(hailingAccepted.getOperationRequestId()).ifPresent(operation->{
             
-            operation // do something
+            operation.setDriverId(new DriverId(hailingAccepted.getId()));
             repository().save(operation);
-
-
-         });
-        */
-
-        
+        });
     }
 //>>> Clean Arch / Port Method
 
