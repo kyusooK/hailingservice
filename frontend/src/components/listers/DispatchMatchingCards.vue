@@ -112,6 +112,7 @@
                 'longitude': 0,
                 'estimatedTime': 0,
                 'estimatedDistance': 0,
+                'driverLocation': '',
             }
         },
         methods:{

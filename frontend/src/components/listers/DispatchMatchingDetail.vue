@@ -25,6 +25,9 @@
             <div>
                 <Number label="EstimatedDistance" v-model="item.estimatedDistance" :editMode="editMode" @change="change" />
             </div>
+            <div>
+                <String label="DriverLocation" v-model="item.driverLocation" :editMode="editMode" @change="change" />
+            </div>
         </v-card-text>
 
         <v-card-actions>

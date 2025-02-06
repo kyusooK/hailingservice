@@ -49,6 +49,7 @@
                             
                             
                             
+                            
                         </v-list-item-title>
 
                         <v-list-item-subtitle style="font-size:25px; font-weight:700;">
@@ -61,6 +62,7 @@
                             [ Longitude :  {{data.longitude }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             [ EstimatedTime :  {{data.estimatedTime }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             [ EstimatedDistance :  {{data.estimatedDistance }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            [ DriverLocation :  {{data.driverLocation }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </v-list-item-subtitle>
 
                     </v-list-item-content>
@@ -136,6 +138,7 @@
                 'longitude': 0,
                 'estimatedTime': 0,
                 'estimatedDistance': 0,
+                'driverLocation': '',
             }
         },
         methods: {

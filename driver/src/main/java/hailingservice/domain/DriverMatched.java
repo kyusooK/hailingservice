@@ -15,4 +15,6 @@ public class DriverMatched extends AbstractEvent {
     private Object userId;
     private Integer estimatedTime;
     private Integer estimatedDistance;
+    private String destination;
+    private String driverLocation;
 }

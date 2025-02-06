@@ -75,6 +75,7 @@
                     { text: "longitude", value: "longitude" },
                     { text: "estimatedTime", value: "estimatedTime" },
                     { text: "estimatedDistance", value: "estimatedDistance" },
+                    { text: "driverLocation", value: "driverLocation" },
                 ],
             matching : [],
             newValue: {},
@@ -100,6 +101,7 @@
                 'longitude': 0,
                 'estimatedTime': 0,
                 'estimatedDistance': 0,
+                'driverLocation': '',
             }
         },
         methods: {
