@@ -76,7 +76,7 @@
         <v-card-actions>
             <v-spacer></v-spacer>
         </v-card-actions>
-        <payment serviceType="pay"/>
+        <payment v-if="!editMode" serviceType="pay"/>
         <review-app>
             <review-review-cards show-reviews="true" show-review-input="true" detail-mode="true" :value="JSON.stringify(reviewData)"></review-review-cards>
         </review-app>

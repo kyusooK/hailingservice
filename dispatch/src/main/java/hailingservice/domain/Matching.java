@@ -118,10 +118,9 @@ public class Matching {
     //>>> Clean Arch / Port Method
     //<<< Clean Arch / Port Method
     public static void calculateDestination(Operated operated) {
-        ObjectMapper mapper = new ObjectMapper();
         String apiKey = "BIwUJL1VBo3lanAgKYxGQ7egeR1SP8iD7UqIbYpN"; // API 키
 
-        repository().findById(operated.getId()).ifPresent(matching->{
+        repository().findById(operated.getId() - 1).ifPresent(matching->{
             
             try {
                 // 승객의 위치 좌표 변환

@@ -50,8 +50,8 @@ public class User {
             
             user.setMessage(
                 "차량 호출이 수락되었습니다. " +
-                "기사님 위치: " + driverMatched.getDriverLocation() +
-                "도착 예상 시간: " + driverMatched.getEstimatedTime());
+                " 기사님 위치: " + driverMatched.getDriverLocation() +
+                " 도착 예상 시간: " + driverMatched.getEstimatedTime());
             repository().save(user);
 
         });

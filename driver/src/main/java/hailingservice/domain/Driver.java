@@ -144,8 +144,9 @@ public class Driver {
             if (driverToUpdate != null) {
                 driverToUpdate.setOperationRequestId(gpsBasedLocationConfirmed.getId());
                 driverToUpdate.setOperationRequestForm(
-                    "승객 위치: " +  gpsBasedLocationConfirmed.getPassengerLocation() +
-                    "목적지: " + gpsBasedLocationConfirmed.getDestination());
+                    "차량 호출 요청 정보입니다." +
+                    " 승객 위치: " +  gpsBasedLocationConfirmed.getPassengerLocation() +
+                    " 목적지: " + gpsBasedLocationConfirmed.getDestination());
                 repository().save(driverToUpdate);
             }
         }
@@ -188,9 +189,10 @@ public class Driver {
         repository().findById(Long.valueOf(matchingMap.get("id").toString())).ifPresent(driver->{
             
             driver.setOperationInfo(
-                "승객 위치: " + driverMatched.getPassengerLocation() +
-                "예상 거리: " + driverMatched.getEstimatedDistance() +
-                "예상 시간: " + driverMatched.getEstimatedTime());
+                "승객 위치 안내 정보입니다." +
+                " 승객 위치: " + driverMatched.getPassengerLocation() +
+                " 예상 거리: " + driverMatched.getEstimatedDistance() +
+                " 예상 시간: " + driverMatched.getEstimatedTime());
             repository().save(driver);
 
 
@@ -208,10 +210,11 @@ public class Driver {
         repository().findById(Long.valueOf(matchingMap.get("id").toString())).ifPresent(driver->{
             
             driver.setOperationInfo(
-                "출발 위치: " + destinationCalculated.getPassengerLocation() +
-                "목적지: " + destinationCalculated.getDestination() +
-                "예상 거리: " + destinationCalculated.getEstimatedDistance() +
-                "예상 시간: " + destinationCalculated.getEstimatedTime());
+                "목적지 안내 정보입니다." +
+                " 출발 위치: " + destinationCalculated.getPassengerLocation() +
+                " 목적지: " + destinationCalculated.getDestination() +
+                " 예상 거리: " + destinationCalculated.getEstimatedDistance() +
+                " 예상 시간: " + destinationCalculated.getEstimatedTime());
             repository().save(driver);
 
          });
