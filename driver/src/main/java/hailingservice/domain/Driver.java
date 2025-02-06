@@ -77,21 +77,19 @@ public class Driver {
 
     //>>> Clean Arch / Port Method
     //<<< Clean Arch / Port Method
-    public static void hailDriver(
-        GpsBasedLocationConfirmed gpsBasedLocationConfirmed
-    ) {
+    public static void hailDriver(GpsBasedLocationConfirmed gpsBasedLocationConfirmed) {
         
-        ObjectMapper mapper = new ObjectMapper();
-        Map<Long, Object> matchingMap = mapper.convertValue(gpsBasedLocationConfirmed.getDriverId(), Map.class);
+        // ObjectMapper mapper = new ObjectMapper();
+        // Map<Long, Object> matchingMap = mapper.convertValue(gpsBasedLocationConfirmed.getDriverId(), Map.class);
 
-        repository().findById(Long.valueOf(matchingMap.get("id").toString())).ifPresent(driver->{
+        // repository().findById(Long.valueOf(matchingMap.get("id").toString())).ifPresent(driver->{
             
-            driver.setOerationRequestForm(
-                "승객위치" + ":" + gpsBasedLocationConfirmed.getPassengerLocation() + "\n"
-                + "목적지" + ":" + gpsBasedLocationConfirmed.getDestination() + "\n")
-            repository().save(driver);
+        //     driver.setOerationRequestForm(
+        //         "승객위치" + ":" + gpsBasedLocationConfirmed.getPassengerLocation() + "\n"
+        //         + "목적지" + ":" + gpsBasedLocationConfirmed.getDestination() + "\n")
+        //     repository().save(driver);
 
-         });
+        //  });
 
     }
 
