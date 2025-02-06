@@ -48,7 +48,6 @@ public class DriverController {
     )
     public Driver acceptCarhailing(
         @PathVariable(value = "id") Long id,
-        @RequestBody AcceptCarhailingCommand acceptCarhailingCommand,
         HttpServletRequest request,
         HttpServletResponse response
     ) throws Exception {
@@ -57,7 +56,7 @@ public class DriverController {
 
         optionalDriver.orElseThrow(() -> new Exception("No Entity Found"));
         Driver driver = optionalDriver.get();
-        driver.acceptCarhailing(acceptCarhailingCommand);
+        driver.acceptCarhailing();
 
         driverRepository.save(driver);
         return driver;

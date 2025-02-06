@@ -5,7 +5,6 @@
         </v-card-title>
 
         <v-card-text>
-            <Boolean label="IsHailing" v-model="value.isHailing" :editMode="editMode"/>
         </v-card-text>
 
         <v-card-actions>
@@ -41,7 +40,6 @@
             value: {},
         }),
         created() {
-            this.value.isHailing = false;
         },
         watch: {
         },

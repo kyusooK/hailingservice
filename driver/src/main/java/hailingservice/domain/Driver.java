@@ -68,9 +68,7 @@ public class Driver {
 
     //>>> Clean Arch / Port Method
     //<<< Clean Arch / Port Method
-    public void acceptCarhailing(
-        AcceptCarhailingCommand acceptCarhailingCommand
-    ) {
+    public void acceptCarhailing() {
         //implement business logic here:
 
         HailingAccepted hailingAccepted = new HailingAccepted(this);
