@@ -70,15 +70,7 @@
                 text
                 @click="confirmLicense"
             >
-                ConfirmLicense
-            </v-btn>
-            <v-btn
-                v-if="!editMode"
-                color="primary"
-                text
-                @click="acceptCarhailing"
-            >
-                AcceptCarhailing
+                운전자확인
             </v-btn>
             <v-btn
                 v-if="!editMode"
@@ -86,7 +78,15 @@
                 text
                 @click="openChangeOperationstatus"
             >
-                ChangeOperationstatus
+                운행상태변경
+            </v-btn>
+            <v-btn
+                v-if="!editMode"
+                color="primary"
+                text
+                @click="acceptCarhailing"
+            >
+                차량호출 수락
             </v-btn>
             <v-dialog v-model="changeOperationstatusDiagram" width="500">
                 <ChangeOperationstatusCommand

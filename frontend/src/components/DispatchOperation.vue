@@ -40,15 +40,6 @@
                 >
                     삭제
                 </v-btn>
-            </div>
-            <div v-else>
-                <v-btn
-                    color="primary"
-                    text
-                    @click="save"
-                >
-                    차량호출
-                </v-btn>
                 <v-btn
                     color="primary"
                     text
@@ -62,6 +53,15 @@
                     @click="save"
                 >
                     운행 완료
+                </v-btn>
+            </div>
+            <div v-else>
+                <v-btn
+                    color="primary"
+                    text
+                    @click="save"
+                >
+                    차량호출
                 </v-btn>
                 <v-btn
                     color="primary"
