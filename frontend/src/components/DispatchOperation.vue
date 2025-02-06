@@ -41,6 +41,14 @@
                     삭제
                 </v-btn>
                 <v-btn
+                    v-if="!editMode"
+                    color="primary"
+                    text
+                    @click="openOperate"
+                >
+                    운행
+                </v-btn>
+                <v-btn
                     color="primary"
                     text
                     @click="save"
@@ -68,14 +76,6 @@
         </v-card-actions>
         <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn
-                v-if="!editMode"
-                color="primary"
-                text
-                @click="openOperate"
-            >
-                Operate
-            </v-btn>
             <v-dialog v-model="operateDiagram" width="500">
                 <OperateCommand
                     @closeDialog="closeOperate"
@@ -233,7 +233,7 @@
             async operate(params) {
                 try {
                     if(!this.offline) {
-                        var temp = await axios.put(axios.fixUrl(this.value._links['operate'].href), params)
+                        var temp = await axios.put(axios.fixUrl(this.value._links['operation'].href), params)
                         for(var k in temp.data) {
                             this.value[k]=temp.data[k];
                         }

@@ -20,54 +20,25 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 //<<< DDD / Aggregate Root
 public class Driver  {
-
-
     
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     
-    
-    
-    
     private Long id;
-    
-    
-    
     
     private String email;
     
-    
-    
-    
     private String driverLicenseNumber;
-    
-    
-    
     
     private Boolean isApproved;
     
-    
-    
-    
     private Boolean isHailing;
-    
-    
-    
     
     private String driverLocation;
     
-    
-    
-    
     private String operationRequestForm;
     
-    
-    
-    
     private String operationInfo;
-    
-    
-    
     
     private Long operationRequestId;
 
@@ -218,7 +189,6 @@ public class Driver  {
     //<<< Clean Arch / Port Method
     public static void servePassengerBoardingLocation(DriverMatched driverMatched) {
         
-        
         ObjectMapper mapper = new ObjectMapper();
         Map<Long, Object> matchingMap = mapper.convertValue(driverMatched.getDriverId(), Map.class);
 
@@ -230,11 +200,7 @@ public class Driver  {
                 " 예상 거리: " + driverMatched.getEstimatedDistance() +
                 " 예상 시간: " + driverMatched.getEstimatedTime());
             repository().save(driver);
-
-
          });
-
-        
     }
 
     //>>> Clean Arch / Port Method
