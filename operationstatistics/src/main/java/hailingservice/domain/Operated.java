@@ -11,7 +11,7 @@ public class Operated extends AbstractEvent {
     private Long id;
     private String passengerLocation;
     private String destination;
-    private DriverId driverId;
-    private UserId userId;
-    private OperationStatus operationStatus;
+    private Object driverId;
+    private Object userId;
+    private Object operationStatus;
 }

@@ -9,7 +9,7 @@ import lombok.Data;
 public class OperationCompleted extends AbstractEvent {
 
     private Long id;
-    private DriverId driverId;
+    private Object driverId;
     private String destination;
-    private OperationStatus operationStatus;
+    private Object operationStatus;
 }

@@ -83,7 +83,7 @@
                 ></OperateCommand>
             </v-dialog>
         </v-card-actions>
-        <payment v-if="!editMode" serviceType="pay"/>
+        <payment v-if="!editMode" serviceType="pay" :paymentDetail="false" :editMode="true" :requestInfo="receiptInfo"/>
         <review-app>
             <review-review-cards show-reviews="true" show-review-input="true" detail-mode="true" :value="JSON.stringify(reviewData)"></review-review-cards>
         </review-app>
@@ -104,7 +104,7 @@
 </template>
 
 <script>
-    import payment from '../../../payment-system/frontend/src/components/listers/PaymentService.vue';
+    import payment from '../../../payment-system-0-0-4/frontend/src/components/listers/Payment.vue';
     const axios = require('axios').default;
 
 
@@ -127,6 +127,11 @@
             },
             reviewData: {
                 userId: "사용자"
+            },
+            receiptInfo: {
+                name: "운행요금",
+                price: this.fee,
+                
             },
             operateDiagram: false,
         }),
