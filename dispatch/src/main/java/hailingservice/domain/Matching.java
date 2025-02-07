@@ -55,7 +55,6 @@ public class Matching {
     //<<< Clean Arch / Port Method
     public static void confirmGpsBasedLocation(CarHailing carHailing) {
             
-            // 4. Matching 엔티티 생성 및 저장
             Matching matching = new Matching();
             matching.setPassengerLocation(carHailing.getPassengerLocation());
             matching.setDestination(carHailing.getDestination());
@@ -63,7 +62,6 @@ public class Matching {
             
             repository().save(matching);
             
-            // 5. 이벤트 발행
             GpsBasedLocationConfirmed gpsBasedLocationConfirmed = new GpsBasedLocationConfirmed(matching);
             gpsBasedLocationConfirmed.publishAfterCommit();
             
