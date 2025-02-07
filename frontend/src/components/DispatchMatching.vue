@@ -16,12 +16,10 @@
         </v-card-title >        
 
         <v-card-text style="background-color: white;">
+            <UserId v-if="!editMode" offline label="사용자정보 ID" v-model="value.userId" :editMode="false" @change="change"/>
+            <DriverId v-if="!editMode" offline label="운전자정보 ID" v-model="value.driverId" :editMode="false" @change="change"/>
             <String label="목적지" v-model="value.destination" :editMode="editMode" :inputUI="''"/>
             <String label="승객현재위치" v-model="value.passengerLocation" :editMode="editMode" :inputUI="''"/>
-            <DriverId offline label="운전자정보 ID" v-model="value.driverId" :editMode="editMode" @change="change"/>
-            <UserId offline label="사용자정보 ID" v-model="value.userId" :editMode="editMode" @change="change"/>
-            <Number label="위도" v-model="value.latitude" :editMode="editMode" :inputUI="''"/>
-            <Number label="경도" v-model="value.longitude" :editMode="editMode" :inputUI="''"/>
             <Number label="예상시간" v-model="value.estimatedTime" :editMode="editMode" :inputUI="''"/>
             <Number label="예상거리" v-model="value.estimatedDistance" :editMode="editMode" :inputUI="''"/>
             <String label="운전자위치" v-model="value.driverLocation" :editMode="editMode" :inputUI="''"/>

@@ -20,16 +20,18 @@
             <String label="목적지" v-model="value.destination" :editMode="editMode" :inputUI="''"/>
             <OperationStatus offline label="OperationStatus" v-model="value.operationStatus" :editMode="editMode" @change="change"/>
             <UserId offline label="userId" v-model="value.userId" :editMode="editMode" @change="change"/>
-            <DriverId offline label="driverId" v-model="value.driverId" :editMode="editMode" @change="change"/>
-            <Number label="운행요금" v-model="value.fee" :editMode="editMode" :inputUI="''"/>
+            <DriverId v-if="!editMode" offline label="driverId" v-model="value.driverId" :editMode="false" @change="change"/>
+            <Number v-if="!editMode" label="운행요금" v-model="value.fee" :editMode="false" :inputUI="''"/>
         </v-card-text>
         <v-card-actions style="background-color: white;">
             <v-spacer></v-spacer>
             <div v-if="!editMode">
+                <v-row>
+                    <payment v-if="!editMode" serviceType="pay" :paymentDetail="false" :editMode="true" :requestInfo="receiptInfo"/>
                 <v-btn
-                    color="primary"
-                    text
-                    @click="edit"
+                color="primary"
+                text
+                @click="edit"
                 >
                     수정
                 </v-btn>
@@ -55,6 +57,7 @@
                 >
                     운행 완료
                 </v-btn>
+                </v-row>
             </div>
             <div v-else>
                 <v-btn
@@ -83,10 +86,11 @@
                 ></OperateCommand>
             </v-dialog>
         </v-card-actions>
-        <payment v-if="!editMode" serviceType="pay" :paymentDetail="false" :editMode="true" :requestInfo="receiptInfo"/>
+        
         <review-app>
             <review-review-cards show-reviews="true" show-review-input="true" detail-mode="true" :value="JSON.stringify(reviewData)"></review-review-cards>
         </review-app>
+        <reservation v-if="!editMode" :editMode="true"/>
 
         <v-snackbar
             v-model="snackbar.status"
@@ -105,13 +109,15 @@
 
 <script>
     import payment from '../../../payment-system-0-0-4/frontend/src/components/listers/Payment.vue';
+    import reservation from '../../../Reservation-Notification-0-0-3/frontend/src/components/ReservationReservation.vue'
     const axios = require('axios').default;
 
 
     export default {
         name: 'DispatchOperation',
         components:{
-            payment
+            payment,
+            reservation
         },
         props: {
             value: [Object, String, Number, Boolean, Array],
@@ -130,7 +136,6 @@
             },
             receiptInfo: {
                 name: "운행요금",
-                price: this.fee,
                 
             },
             operateDiagram: false,
@@ -138,6 +143,9 @@
 	async created() {
             if(!this.reviewData.itemId){
                 this.reviewData.itemId = this.decode(this.value._links.self.href.split("/")[this.value._links.self.href.split("/").length - 1])
+            }
+            if(!this.receiptInfo.price){
+                this.receiptInfo.price = this.value.fee
             }
             console.log(this.reviewData.itemId)
         },

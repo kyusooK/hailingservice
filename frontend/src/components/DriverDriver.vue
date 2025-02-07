@@ -18,12 +18,12 @@
         <v-card-text style="background-color: white;">
             <String label="이메일" v-model="value.email" :editMode="editMode" :inputUI="''"/>
             <String label="운전면혀증" v-model="value.driverLicenseNumber" :editMode="editMode" :inputUI="''"/>
-            <Boolean label="운전자승인여부" v-model="value.isApproved" :editMode="editMode" :inputUI="''"/>
-            <Boolean label="호출요청가능여부" v-model="value.isHailing" :editMode="editMode" :inputUI="''"/>
-            <String label="운전자현재위치" v-model="value.driverLocation" :editMode="editMode" :inputUI="''"/>
-            <String label="차량호출요청서" v-model="value.operationRequestForm" :editMode="editMode" :inputUI="''"/>
-            <String label="운행정보" v-model="value.operationInfo" :editMode="editMode" :inputUI="''"/>
-            <Number label="호출요청정보" v-model="value.operationRequestId" :editMode="editMode" :inputUI="''"/>
+            <Boolean v-if="!editMode" label="운전자승인여부" v-model="value.isApproved" :editMode="false" :inputUI="''"/>
+            <Boolean v-if="!editMode" label="호출요청가능여부" v-model="value.isHailing" :editMode="false" :inputUI="''"/>
+            <String v-if="!editMode" label="운전자현재위치" v-model="value.driverLocation" :editMode="false" :inputUI="''"/>
+            <String v-if="!editMode" label="차량호출요청서" v-model="value.operationRequestForm" :editMode="false" :inputUI="''"/>
+            <String v-if="!editMode" label="운행정보" v-model="value.operationInfo" :editMode="false" :inputUI="''"/>
+            <Number v-if="!editMode" label="호출요청정보" v-model="value.operationRequestId" :editMode="false" :inputUI="''"/>
         </v-card-text>
 
         <v-card-actions style="background-color: white;">
