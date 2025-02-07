@@ -4,7 +4,7 @@
 **소스 압축파일 다운로드**: ZIP 또는 TAR.GZ된 파일을 다운로드합니다.
 - zip 형식 파일 다운로드
 ```sh
-curl -LJO https://github.com/sooheon45/payment-system/archive/refs/tags/v0-0-3.zip
+curl -LJO https://github.com/sooheon45/payment-system/archive/refs/tags/v0-0-4.zip
 ```
 
 - tar.gz 형식 파일 다운로드
@@ -15,7 +15,7 @@ curl -LJO https://github.com/sooheon45/payment-system/archive/refs/tags/v0-0-3.t
 **압축 해제**:
 - zip 파일 압축 해제
 ```sh
-unzip payment-system-0-0-3.zip
+unzip payment-system-0-0-4.zip
 ```
 
 - tar.gz 파일 압축 해제

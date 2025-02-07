@@ -69,7 +69,7 @@ public class Operation  {
     }
     public static void registerDriver(HailingAccepted hailingAccepted){
         
-        repository().findById(hailingAccepted.getOperationRequestId()).ifPresent(operation->{
+        repository().findById(hailingAccepted.getOperationRequestId() - 1).ifPresent(operation->{
             
             operation.setDriverId(new DriverId(hailingAccepted.getId()));
             repository().save(operation);
