@@ -67,7 +67,7 @@
                     <CashStore :offline="offline" class="video-card" :isNew="true" :editMode="true" v-model="newValue" @add="append" v-if="tick"/>
                 
                     <v-btn
-                            style="postition:absolute; top:2%; right:2%"
+                            style="postition:absolute; top: 16px; right:16px;"
                             @click="closeDialog()"
                             depressed 
                             icon 
