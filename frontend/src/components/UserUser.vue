@@ -1,5 +1,5 @@
 <template>
-    <v-card style="width:450px; height:100%;" outlined>
+    <v-card outlined>
         <template slot="progress">
             <v-progress-linear
                     color="primary-darker-1"
@@ -56,9 +56,6 @@
                     취소
                 </v-btn>
             </div>
-        </v-card-actions>
-        <v-card-actions>
-            <v-spacer></v-spacer>
         </v-card-actions>
 
         <v-snackbar

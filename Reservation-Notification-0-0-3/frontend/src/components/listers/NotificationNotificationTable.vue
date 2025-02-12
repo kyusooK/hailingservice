@@ -12,8 +12,6 @@
                 <v-dialog
                         v-model="openDialog"
                         width="332.5"
-                        fullscreen
-                        hide-overlay
                         transition="dialog-bottom-transition"
                 >
                     <template v-slot:activator="{ on, attrs }">
@@ -31,7 +29,7 @@
                         </v-fab-transition>
                     </template>
 
-                    <NotificationNotification :offline="offline" class="video-card" :isNew="true" :editMode="true" v-model="newValue" @add="append" v-if="tick"/>
+                    <NotificationNotification :offline="offline"  :isNew="true" :editMode="true" v-model="newValue" @add="append" v-if="tick"/>
                 
                     <v-btn
                             style="postition:absolute; top: 16px; right:16px;"
