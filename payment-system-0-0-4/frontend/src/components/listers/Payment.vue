@@ -237,14 +237,5 @@
     };
 </script>
 <style>
-    .payment-dialog-scroll {
-        max-height: 65vh;
-        overflow: auto;
-    }
-    .sub-title {
-        font-size: 12px;
-        font-weight: 700;
-        width: 100%;
-    }
 </style>
 

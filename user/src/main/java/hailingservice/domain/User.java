@@ -49,9 +49,9 @@ public class User {
         repository().findById(Long.valueOf(matchingUserMap.get("id").toString())).ifPresent(user->{
             
             user.setMessage(
-                "차량 호출이 수락되었습니다. " +
-                " 기사님 위치: " + driverMatched.getDriverLocation() +
-                " 도착 예상 시간: " + driverMatched.getEstimatedTime());
+                "차량 호출이 수락되었습니다.\n" +
+                "기사님 위치: " + driverMatched.getDriverLocation() + "\n" +
+                "도착 예상 시간: " + driverMatched.getEstimatedTime());
             repository().save(user);
 
         });

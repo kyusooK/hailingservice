@@ -43,29 +43,30 @@
     text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white !important;
 }
 
-/* 메인 페이지 카드 뒤집기 스타일 */
-.flip-card {
-  perspective: 1000px !important;
-  width: 300px !important;
-  height: 300px !important;
+.main-card:hover {
+  background-color:#1976D2;
+  cursor: pointer;
 }
-.flip-card.is-flipped .flip-card-inner {
-  transform: rotateY(180deg) !important;
+
+.main-card:hover .main-card-title {
+  color:white;
 }
-.flip-card-inner {
-  transition: transform 0.6s !important;
-  transform-style: preserve-3d !important;
-  position: relative !important;
-  transform-origin: center !important;
-  cursor: pointer !important;
+
+.delete-input-detail .v-text-field__details {
+  display: none !important;
 }
-.flip-card-front,
-.flip-card-back {
-  backface-visibility: hidden !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
+
+.delete-input-detail {
+  margin: 0px !important;
 }
-.flip-card-back {
-  transform: rotateY(180deg) !important;
+
+
+.payment-dialog-scroll {
+  max-height: 65vh;
+  overflow: auto;
+}
+.sub-title {
+  font-size: 12px;
+  font-weight: 700;
+  width: 100%;
 }

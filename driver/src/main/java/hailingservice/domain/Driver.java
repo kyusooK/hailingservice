@@ -150,9 +150,9 @@ public class Driver  {
             if (driver != null) {
                 driver.setOperationRequestId(gpsBasedLocationConfirmed.getId());
                 driver.setOperationRequestForm(
-                    "차량 호출 요청 정보입니다." +
-                    " 승객 위치: " +  gpsBasedLocationConfirmed.getPassengerLocation() +
-                    " 목적지: " + gpsBasedLocationConfirmed.getDestination());
+                    "차량 호출 요청 정보입니다.\n" +
+                    "승객 위치: " +  gpsBasedLocationConfirmed.getPassengerLocation() + "\n" +
+                    "목적지: " + gpsBasedLocationConfirmed.getDestination());
                 repository().save(driver);
             }
         }
@@ -194,11 +194,14 @@ public class Driver  {
 
         repository().findById(Long.valueOf(matchingMap.get("id").toString())).ifPresent(driver->{
             
+            String formattedDistance = String.format("%.3f km", driverMatched.getEstimatedDistance() / 1000.0);
+            String formattedTime = formatTime(driverMatched.getEstimatedTime());
+
             driver.setOperationInfo(
-                "승객 위치 안내 정보입니다." +
-                " 승객 위치: " + driverMatched.getPassengerLocation() +
-                " 예상 거리: " + driverMatched.getEstimatedDistance() +
-                " 예상 시간: " + driverMatched.getEstimatedTime());
+                "승객 위치 안내 정보입니다.\n" +
+                "승객 위치: " + driverMatched.getPassengerLocation() + "\n" +
+                "예상 거리: " + formattedDistance + "\n" +
+                "예상 시간: " + formattedTime);
             repository().save(driver);
          });
     }
@@ -212,17 +215,37 @@ public class Driver  {
 
         repository().findById(Long.valueOf(matchingMap.get("id").toString())).ifPresent(driver->{
             
+            String formattedDistance = String.format("%.3f km", destinationCalculated.getEstimatedDistance() / 1000.0);
+            String formattedTime = formatTime(destinationCalculated.getEstimatedTime());
+
             driver.setOperationInfo(
-                "목적지 안내 정보입니다." +
-                " 출발 위치: " + destinationCalculated.getPassengerLocation() +
-                " 목적지: " + destinationCalculated.getDestination() +
-                " 예상 거리: " + destinationCalculated.getEstimatedDistance() +
-                " 예상 시간: " + destinationCalculated.getEstimatedTime());
+                "목적지 안내 정보입니다.\n" +
+                "출발 위치: " + destinationCalculated.getPassengerLocation() + "\n" +
+                "목적지: " + destinationCalculated.getDestination() + "\n" +
+                "예상 거리: " + formattedDistance + "\n" +
+                "예상 시간: " + formattedTime);
             repository().save(driver);
 
          });
 
         
+    }
+
+    private static String formatTime(int seconds) {
+        int hours = seconds / 3600;
+        int minutes = (seconds % 3600) / 60;
+        seconds = seconds % 60;
+    
+        StringBuilder result = new StringBuilder();
+        if (hours > 0) {
+            result.append(hours).append("시간 ");
+        }
+        if (minutes > 0 || hours > 0) {
+            result.append(minutes).append("분 ");
+        }
+        result.append(seconds).append("초");
+    
+        return result.toString().trim();
     }
 //>>> Clean Arch / Port Method
 

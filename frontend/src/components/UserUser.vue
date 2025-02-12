@@ -16,6 +16,7 @@
         </v-card-title >        
 
         <v-card-text style="background-color: white;">
+            
             <String label="이메일" v-model="value.email" :editMode="editMode" :inputUI="''"/>
             <String label="휴대폰번호" v-model="value.phoneNumber" :editMode="editMode" :inputUI="''"/>
             <String v-if="!editMode" label="메세지" v-model="value.message" :editMode="false" :inputUI="''"/>
