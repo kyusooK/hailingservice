@@ -65,8 +65,17 @@
   max-height: 65vh;
   overflow: auto;
 }
+
 .sub-title {
-  font-size: 12px;
-  font-weight: 700;
-  width: 100%;
+    font-size: 14px;
+    font-weight: 700;
+    width: 100%;
+    margin-bottom:16px;
+    color: black;
+}
+.sub-text {
+    font-size: 12px;
+    font-weight: 700;
+    width: 100%;
+    color: #666666;
 }
