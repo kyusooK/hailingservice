@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import Payment from './Payment.vue';
+    import Payment from './PaymentSystem.vue';
 
     export default {
         name: 'RequestPaymentPaymentManager',

@@ -7,7 +7,7 @@ import lombok.*;
 
 @Data
 @ToString
-public class PaymentCompleted extends AbstractEvent {
+public class RequestPaymentCompleted extends AbstractEvent {
 
     private Long id;
     private Long itemId;

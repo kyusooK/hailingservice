@@ -12,19 +12,11 @@ spring:
         - id: request-payment
           uri: http://localhost:8032
           predicates:
-            - Path=/payment-system-0-0-6/payments/**, 
-        - id: paymentfrontend
-          uri: http://localhost:8030
-          predicates:
-            - Path=/payment-system-0-0-6/**
+            - Path=/payments/**, 
         - id: review
           uri: http://localhost:8052
           predicates:
-            - Path=/pbc-review/reviews/**
-        - id: frontend
-          uri: http://localhost:8050
-          predicates:
-            - Path=/pbc-review/**
+            - Path=/reviews/**
         - id: user
           uri: http://localhost:8082
           predicates:

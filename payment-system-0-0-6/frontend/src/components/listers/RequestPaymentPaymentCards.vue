@@ -16,19 +16,19 @@
         <v-col>
             <div>
                 <!-- 모드 종류 : receipt(영수증 조회), pay(결제정보), refund(환불관련), buyerInfoMode(구매자 정보 표시관련)  -->
-                <Payment
+                <PaymentSystem
                     :serviceType="'pay'" 
                     :buyerInfoMode="true"
                     :requestInfo="requestInfo"
                 />
 
-                <Payment
+                <PaymentSystem
                     :serviceType="'refund'" 
                     :buyerInfoMode="true"
                     :requestInfo="requestInfo"
                 />
 
-                <Payment
+                <PaymentSystem
                     :serviceType="'receipt'" 
                     :buyerInfoMode="true"
                     :requestInfo="requestInfo"
@@ -37,7 +37,7 @@
         </v-col>
         <v-row class="ma-0 pa-0">
             <v-col class="pa-4" cols="12" sm="6" md="3" v-for="(value, index) in values" :key="index">
-                <Payment :offline="offline"  v-model="values[index]" @delete="remove"/>
+                <PaymentSystem :offline="offline"  v-model="values[index]" @delete="remove"/>
             </v-col>
         </v-row>
     </div>
@@ -46,12 +46,12 @@
 <script>
 
     // const axios = require('axios').default;
-    import Payment from './Payment';
+    import PaymentSystem from './PaymentSystem.vue';
 
     export default {
         name: 'RequestPaymentPaymentManager',
         components: {
-            Payment,
+            PaymentSystem
         },
         props: {
             offline: Boolean

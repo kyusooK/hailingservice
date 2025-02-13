@@ -94,15 +94,15 @@ public class PolicyHandler {
 
     @StreamListener(
         value = KafkaProcessor.INPUT,
-        condition = "headers['type']=='PaymentCompleted'"
+        condition = "headers['type']=='RequestPaymentCompleted'"
     )
-    public void wheneverPaymentCompleted_UpdatePaymentInfo(
-        @Payload PaymentCompleted paymentCompleted
+    public void wheneverRequestPaymentCompleted_UpdatePaymentInfo(
+        @Payload RequestPaymentCompleted requestPaymentCompleted
     ) {
-        PaymentCompleted event = paymentCompleted;
+        RequestPaymentCompleted event = requestPaymentCompleted;
         System.out.println(
             "\n\n##### listener UpdatePaymentInfo : " +
-            paymentCompleted +
+            requestPaymentCompleted +
             "\n\n"
         );
 

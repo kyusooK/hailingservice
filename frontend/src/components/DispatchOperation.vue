@@ -22,14 +22,21 @@
             <UserId offline label="사용자 ID" v-model="value.userId" :editMode="editMode" @change="change"/>
             <DriverId v-if="!editMode" offline label="운전자 ID" v-model="value.driverId" :editMode="false" @change="change"/>
             <Number v-if="!editMode" label="운행요금" v-model="value.fee" :editMode="false" :inputUI="''"/>
+            <String v-if="!editMode" label="PaymentId" v-model="value.paymentId" :editMode="false" :inputUI="''"/>
+            <String v-if="!editMode" label="PaymentStatus" v-model="value.paymentStatus" :editMode="false" :inputUI="''"/>
         </v-card-text>
         <v-card-actions style="background-color: white;">
             <v-spacer></v-spacer>
             <div v-if="!editMode">
                 <v-row>
-                    <payment-system>
-                        <Payment serviceType='pay' :buyerInfoMode="false" :requestInfo="receiptInfo"/>
-                    </payment-system>
+                    <payment-system-app>
+                        <!-- <payment-system serviceType='pay' :buyerInfoMode="false" :requestInfo="JSON.stringify(receiptInfo)"/> -->
+                        <payment-system
+                            service-type="pay"
+                            :request-info="JSON.stringify(paymentData)" 
+                            buyer-info-mode="true"
+                        ></payment-system>
+                    </payment-system-app>
                 <v-btn
                 color="primary"
                 text
@@ -115,15 +122,14 @@
 </template>
 
 <script>
-import Payment from '../../../payment-system-0-0-6/frontend/src/components/listers/Payment.vue';
+
     const axios = require('axios').default;
 
 
     export default {
         name: 'DispatchOperation',
         components:{
-    Payment
-},
+        },
         props: {
             value: [Object, String, Number, Boolean, Array],
             editMode: Boolean,
@@ -139,10 +145,7 @@ import Payment from '../../../payment-system-0-0-6/frontend/src/components/liste
             reviewData: {
                 userId: "사용자"
             },
-            receiptInfo: {
-                name: "운행요금",
-                
-            },
+            paymentData: null,
             operateDiagram: false,
             completeOperationDiagram: false
         }),
@@ -150,12 +153,19 @@ import Payment from '../../../payment-system-0-0-6/frontend/src/components/liste
             if(!this.reviewData.itemId){
                 this.reviewData.itemId = this.decode(this.value._links.self.href.split("/")[this.value._links.self.href.split("/").length - 1])
             }
-            if(!this.receiptInfo.price){
-                this.receiptInfo.price = this.value.fee
+            if(!this.paymentData){
+                this.paymentData = {
+                    itemId : this.decode(this.value._links.self.href.split("/")[this.value._links.self.href.split("/").length - 1]),
+                    price: this.value.fee,
+                    name: "운행요금",
+                    buyerId: "test",
+                    buyerEmail: "test@gmail.com",
+                    buyerTel: "01012345678",
+                    buyerName: "test"
+                }
             }
-            if(!this.receiptInfo.itemId){
-                this.receiptInfo.itemId = this.value.id
-            }
+            console.log(paymentData);
+            
         },
         methods: {
             decode(value) {

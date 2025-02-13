@@ -25,8 +25,8 @@ public class Payment {
 
     @PostPersist
     public void onPostPersist() {
-        RequstPaymentCompleted requstPaymentCompleted = new RequstPaymentCompleted(this);
-        requstPaymentCompleted.publishAfterCommit();
+        RequestPaymentCompleted requestPaymentCompleted = new RequestPaymentCompleted(this);
+        requestPaymentCompleted.publishAfterCommit();
     }
 
     public static PaymentRepository repository() {

@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import Payment from './Payment.vue';
+    import Payment from './PaymentSystem.vue';
     import axios from 'axios';
 
     export default {

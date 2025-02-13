@@ -31,12 +31,12 @@ spring:
         event-in:
           group: payment
 #<<< EDA / Topic Name
-          destination: paymentsystem
+          destination: hailingservice
 #>>> EDA / Topic Name
           contentType: application/json
         event-out:
 #<<< EDA / Topic Name
-          destination: paymentsystem
+          destination: hailingservice
 #>>> EDA / Topic Name
           contentType: application/json
 
@@ -75,10 +75,10 @@ spring:
       bindings:
         event-in:
           group: payment
-          destination: paymentsystem
+          destination: hailingservice
           contentType: application/json
         event-out:
-          destination: paymentsystem
+          destination: hailingservice
           contentType: application/json
 
 

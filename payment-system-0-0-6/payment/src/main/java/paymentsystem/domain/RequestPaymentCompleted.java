@@ -6,7 +6,7 @@ import paymentsystem.infra.AbstractEvent;
 //<<< DDD / Domain Event
 @Data
 @ToString
-public class RequstPaymentCompleted extends AbstractEvent {
+public class RequestPaymentCompleted extends AbstractEvent {
 
     private Long id;
     private Long itemId;
@@ -21,11 +21,11 @@ public class RequstPaymentCompleted extends AbstractEvent {
     private String reason;
 
 
-    public RequstPaymentCompleted(Payment aggregate) {
+    public RequestPaymentCompleted(Payment aggregate) {
         super(aggregate);
     }
 
-    public RequstPaymentCompleted() {
+    public RequestPaymentCompleted() {
         super();
     }
 }

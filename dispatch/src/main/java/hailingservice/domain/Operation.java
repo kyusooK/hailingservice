@@ -95,14 +95,13 @@ public class Operation  {
         });
     }
 
-    public static void updatePaymentInfo(PaymentCompleted paymentCompleted){
+    public static void updatePaymentInfo(RequestPaymentCompleted requestPaymentCompleted){
         
-        repository().findById(paymentCompleted.getItemId()).ifPresent(operation->{
+        repository().findById(requestPaymentCompleted.getItemId()).ifPresent(operation->{
             
-            operation.setPaymentId(paymentCompleted.getId());
-            operation.setPaymentStatus("결제 완료");
+            operation.setPaymentId(requestPaymentCompleted.getId());
+            operation.setPaymentStatus(requestPaymentCompleted.getStatus());
             repository().save(operation);
-
 
          });
 
