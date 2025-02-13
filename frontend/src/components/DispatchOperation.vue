@@ -1,5 +1,5 @@
 <template>
-    <v-card style="width:450px; height:100%;" outlined>
+    <v-card outlined>
         <template slot="progress">
             <v-progress-linear
                     color="primary-darker-1"
@@ -18,9 +18,9 @@
         <v-card-text style="background-color: white;">
             <String label="승객현재위치" v-model="value.passengerLocation" :editMode="editMode" :inputUI="''"/>
             <String label="목적지" v-model="value.destination" :editMode="editMode" :inputUI="''"/>
-            <OperationStatus offline label="OperationStatus" v-model="value.operationStatus" :editMode="editMode" @change="change"/>
-            <UserId offline label="userId" v-model="value.userId" :editMode="editMode" @change="change"/>
-            <DriverId v-if="!editMode" offline label="driverId" v-model="value.driverId" :editMode="false" @change="change"/>
+            <OperationStatus offline label="운행상태" v-model="value.operationStatus" :editMode="editMode" @change="change"/>
+            <UserId offline label="사용자 ID" v-model="value.userId" :editMode="editMode" @change="change"/>
+            <DriverId v-if="!editMode" offline label="운전자 ID" v-model="value.driverId" :editMode="false" @change="change"/>
             <Number v-if="!editMode" label="운행요금" v-model="value.fee" :editMode="false" :inputUI="''"/>
         </v-card-text>
         <v-card-actions style="background-color: white;">
@@ -99,7 +99,7 @@
         >
             {{ snackbar.text }}
             <v-btn dark text @click="snackbar.status = false">
-                Close
+                닫기
             </v-btn>
         </v-snackbar>
     </v-card>

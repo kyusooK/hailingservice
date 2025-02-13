@@ -1,5 +1,5 @@
 <template>
-    <v-card style="width:450px; height:100%;" outlined>
+    <v-card outlined>
         <template slot="progress">
             <v-progress-linear
                     color="primary-darker-1"
@@ -16,9 +16,32 @@
         </v-card-title >        
 
         <v-card-text style="background-color: white;">
-            <String label="이메일" v-model="value.email" :editMode="editMode" :inputUI="''"/>
-            <String label="휴대폰번호" v-model="value.phoneNumber" :editMode="editMode" :inputUI="''"/>
-            <String v-if="!editMode" label="메세지" v-model="value.message" :editMode="false" :inputUI="''"/>
+            <div v-if="editMode">   
+                <String label="이메일" v-model="value.email" :editMode="editMode" :inputUI="''"/>
+                <String label="휴대폰번호" v-model="value.phoneNumber" :editMode="editMode" :inputUI="''"/>
+                <String v-if="!editMode" label="메세지" v-model="value.message" :editMode="false" :inputUI="''"/>
+            </div>
+            <div v-else>
+                <v-divider class="my-2"></v-divider>
+                <div class="sub-title">사용자</div>
+                <v-row class="sub-text ma-0 pa-0">
+                    <div style="font-weight: 500;">이메일</div>
+                    <v-spacer></v-spacer>
+                    <div>{{ value.email }}</div>
+                </v-row>
+                <v-row class="sub-text ma-0 pa-0">
+                    <div style="font-weight: 500;">휴대폰번호</div>
+                    <v-spacer></v-spacer>
+                    <div>{{ value.phoneNumber }}</div>
+                </v-row>
+                <v-divider class="my-2"></v-divider>
+                
+                <div v-if="!editMode && value.message">
+                    <div class="sub-title">메세지</div>
+                    <String outlined v-model="value.message" :editMode="false" :inputUI="''"/>
+                    <v-divider class="my-2"></v-divider>
+                </div>
+            </div>
         </v-card-text>
 
         <v-card-actions style="background-color: white;">
@@ -56,9 +79,6 @@
                     취소
                 </v-btn>
             </div>
-        </v-card-actions>
-        <v-card-actions>
-            <v-spacer></v-spacer>
         </v-card-actions>
 
         <v-snackbar

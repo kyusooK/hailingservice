@@ -35,15 +35,13 @@
                 <v-dialog
                         v-model="openDialog"
                         width="332.5"
-                        fullscreen
-                        hide-overlay
                         transition="dialog-bottom-transition"
                 >
 
-                    <NotificationNotification :offline="offline" class="video-card" :isNew="true" :editMode="true" v-model="newValue" @add="append" v-if="tick"/>
+                    <NotificationNotification :offline="offline"  :isNew="true" :editMode="true" v-model="newValue" @add="append" v-if="tick"/>
                 
                     <v-btn
-                            style="postition:absolute; top:2%; right:2%"
+                            style="postition:absolute; top: 16px; right:16px;"
                             @click="closeDialog()"
                             depressed 
                             icon 
@@ -115,11 +113,6 @@
 
 
 <style>
-    .video-card {
-        width:300px; 
-        margin-left:4.5%; 
-        margin-top:50px; 
-        margin-bottom:50px;
-    }
+    
 </style>
 

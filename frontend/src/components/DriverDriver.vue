@@ -1,5 +1,5 @@
 <template>
-    <v-card style="width:450px; height:100%;" outlined>
+    <v-card outlined>
         <template slot="progress">
             <v-progress-linear
                     color="primary-darker-1"
@@ -15,15 +15,99 @@
             운전자정보
         </v-card-title >        
 
-        <v-card-text style="background-color: white;">
-            <String label="이메일" v-model="value.email" :editMode="editMode" :inputUI="''"/>
-            <String label="운전면혀증" v-model="value.driverLicenseNumber" :editMode="editMode" :inputUI="''"/>
-            <Boolean v-if="!editMode" label="운전자승인여부" v-model="value.isApproved" :editMode="false" :inputUI="''"/>
-            <Boolean v-if="!editMode" label="호출요청가능여부" v-model="value.isHailing" :editMode="false" :inputUI="''"/>
-            <String v-if="!editMode" label="운전자현재위치" v-model="value.driverLocation" :editMode="false" :inputUI="''"/>
-            <String v-if="!editMode" label="차량호출요청서" v-model="value.operationRequestForm" :editMode="false" :inputUI="''"/>
-            <String v-if="!editMode" label="운행정보" v-model="value.operationInfo" :editMode="false" :inputUI="''"/>
-            <Number v-if="!editMode" label="호출요청정보" v-model="value.operationRequestId" :editMode="false" :inputUI="''"/>
+        <v-card-text class="pb-0" style="background-color: white;">
+            <div v-if="editMode">   
+                <String label="이메일" v-model="value.email" :editMode="editMode" :inputUI="''"/>
+                <String label="운전면허증" v-model="value.driverLicenseNumber" :editMode="editMode" :inputUI="''"/>
+            </div>
+            <div v-else>
+                <div>
+                    <v-divider class="my-2"></v-divider>
+                    <div class="sub-title">운전자 정보</div>
+                    <v-row class="sub-text ma-0 pa-0">
+                        <div style="font-weight: 500;">이메일</div>
+                        <v-spacer></v-spacer>
+                        <div>{{ value.email }}</div>
+                    </v-row>
+                    <v-row class="sub-text ma-0 pa-0">
+                        <div style="font-weight: 500;">운전면허증</div>
+                        <v-spacer></v-spacer>
+                        <div>{{ value.driverLicenseNumber }}</div>
+                    </v-row>
+                    <v-divider class="my-2"></v-divider>
+                </div>
+
+                <div>
+                    <div>
+                        <div class="sub-title">운전자 상태</div>
+                        <v-row class="sub-text ma-0 pa-0">
+                            <div style="font-weight: 500;">운전자 승인여부</div>
+                            <v-spacer></v-spacer>
+                            <Boolean label="" v-model="value.isApproved" :editMode="false" :inputUI="''"/>
+                        </v-row>
+                        <v-row class="sub-text ma-0 pa-0">
+                            <div style="font-weight: 500;">호출요청 가능여부</div>
+                            <v-spacer></v-spacer>
+                            <Boolean label="" v-model="value.isHailing" :editMode="false" :inputUI="''"/>
+                        </v-row>
+
+                        <v-row class="ma-0 pa-0">
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                v-if="!editMode"
+                                color="primary"
+                                text
+                                @click="confirmLicense"
+                            >
+                                운전자확인
+                            </v-btn>
+                            <v-btn
+                                v-if="!editMode"
+                                color="primary"
+                                text
+                                @click="openChangeOperationstatus"
+                            >
+                                운행상태변경
+                            </v-btn>
+                            <v-btn
+                                v-if="!editMode"
+                                color="primary"
+                                text
+                                @click="acceptCarhailing"
+                            >
+                                차량호출 수락
+                            </v-btn>
+                        </v-row>
+                    </div>
+                    <v-divider class="my-2"></v-divider>
+                </div>
+                <div>
+                    <div class="sub-title">운행 정보</div>
+                    <v-row class="sub-text ma-0 pa-0">
+                        <div style="font-weight: 500;">현재 위치</div>
+                        <v-spacer></v-spacer>
+                        <div>{{ value.driverLocation }}</div>
+                    </v-row>
+                    <v-row class="sub-text ma-0 pa-0">
+                        <div style="font-weight: 500;">호출 요청 ID</div>
+                        <v-spacer></v-spacer>
+                        <div>{{ value.operationRequestId }}</div>
+                    </v-row>
+                    <div class="sub-text ma-0 pa-0">
+                        <v-divider class="my-2"></v-divider>
+                        <div style="font-weight: 500;">호출 요청서</div>
+                        <v-spacer></v-spacer>
+                        <div v-html="formattedOperationRequestForm"></div>
+                        <v-divider class="my-2"></v-divider>
+                    </div>
+                    <v-row class="sub-text ma-0 pa-0">
+                        <div style="font-weight: 500;">운행 정보</div>
+                        <v-spacer></v-spacer>
+                        <div>{{ value.operationInfo }}</div>
+                    </v-row>
+                    <v-divider class="my-2"></v-divider>
+                </div>
+            </div>
         </v-card-text>
 
         <v-card-actions style="background-color: white;">
@@ -64,30 +148,6 @@
         </v-card-actions>
         <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn
-                v-if="!editMode"
-                color="primary"
-                text
-                @click="confirmLicense"
-            >
-                운전자확인
-            </v-btn>
-            <v-btn
-                v-if="!editMode"
-                color="primary"
-                text
-                @click="openChangeOperationstatus"
-            >
-                운행상태변경
-            </v-btn>
-            <v-btn
-                v-if="!editMode"
-                color="primary"
-                text
-                @click="acceptCarhailing"
-            >
-                차량호출 수락
-            </v-btn>
             <v-dialog v-model="changeOperationstatusDiagram" width="500">
                 <ChangeOperationstatusCommand
                     @closeDialog="closeChangeOperationstatus"
@@ -134,6 +194,11 @@
             changeOperationstatusDiagram: false,
         }),
 	async created() {
+        },
+        computed: {
+            formattedOperationRequestForm() {
+                return this.value.operationRequestForm.replace(/\n/g, '<br>');
+            }
         },
         methods: {
             decode(value) {
