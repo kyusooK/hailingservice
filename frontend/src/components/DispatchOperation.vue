@@ -145,7 +145,7 @@
                 this.reviewData.itemId = this.decode(this.value._links.self.href.split("/")[this.value._links.self.href.split("/").length - 1])
             }
             if(!this.receiptInfo.price){
-                this.receiptInfo.price = this.value.fee
+                this.receiptInfo.price = 10000
             }
             console.log(this.reviewData.itemId)
         },
