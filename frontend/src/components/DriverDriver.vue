@@ -69,14 +69,6 @@
                             >
                                 운행상태변경
                             </v-btn>
-                            <v-btn
-                                v-if="!editMode"
-                                color="primary"
-                                text
-                                @click="acceptCarhailing"
-                            >
-                                차량호출 수락
-                            </v-btn>
                         </v-row>
                     </div>
                     <v-divider class="my-2"></v-divider>
@@ -113,6 +105,14 @@
         <v-card-actions style="background-color: white;">
             <v-spacer></v-spacer>
             <div v-if="!editMode">
+                <v-btn
+                    v-if="!editMode"
+                    color="primary"
+                    text
+                    @click="acceptCarhailing"
+                >
+                    차량호출 수락
+                </v-btn>
                 <v-btn
                     color="primary"
                     text

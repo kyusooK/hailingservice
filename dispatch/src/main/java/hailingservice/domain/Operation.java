@@ -73,6 +73,10 @@ public class Operation  {
         
         repository().findById(this.getId()).ifPresent(operation->{
             operation.setOperationStatus(operateCommand.getOperationStatus());
+            operation.setDriverId(this.getDriverId());
+            operation.setUserId(this.getUserId());
+            operation.setPassengerLocation(this.getPassengerLocation());
+            operation.setDestination(this.getDestination());
 
             Operated operated = new Operated(this);
             operated.publishAfterCommit();

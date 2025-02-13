@@ -28,7 +28,7 @@
             <div v-if="!editMode">
                 <v-row>
                     <payment-system>
-                        <Payment serviceType='pay' :buyerInfoMode="false"/>
+                        <Payment serviceType='pay' :buyerInfoMode="false" :requestInfo="receiptInfo"/>
                     </payment-system>
                 <v-btn
                 color="primary"
@@ -151,9 +151,11 @@ import Payment from '../../../payment-system-0-0-6/frontend/src/components/liste
                 this.reviewData.itemId = this.decode(this.value._links.self.href.split("/")[this.value._links.self.href.split("/").length - 1])
             }
             if(!this.receiptInfo.price){
-                this.receiptInfo.price = 10000
+                this.receiptInfo.price = this.value.fee
             }
-            console.log(this.reviewData.itemId)
+            if(!this.receiptInfo.itemId){
+                this.receiptInfo.itemId = this.value.id
+            }
         },
         methods: {
             decode(value) {
@@ -272,7 +274,7 @@ import Payment from '../../../payment-system-0-0-6/frontend/src/components/liste
             async completeOperation(params) {
                 try {
                     if(!this.offline) {
-                        var temp = await axios.put(axios.fixUrl(this.value._links['completeoperation'].href), params)
+                        var temp = await axios.put(axios.fixUrl(this.value._links['operation'].href), params)
                         for(var k in temp.data) {
                             this.value[k]=temp.data[k];
                         }
