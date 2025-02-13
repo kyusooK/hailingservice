@@ -12,4 +12,7 @@ public class OperationCompleted extends AbstractEvent {
     private DriverId driverId;
     private String destination;
     private OperationStatus operationStatus;
+    private Long fee;
+    private String paymentId;
+    private String paymentStatus;
 }

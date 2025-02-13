@@ -17,6 +17,14 @@ public class OperationHateoasProcessor
                 .of(model.getRequiredLink("self").getHref() + "/operate")
                 .withRel("operate")
         );
+        model.add(
+            Link
+                .of(
+                    model.getRequiredLink("self").getHref() +
+                    "/completeoperation"
+                )
+                .withRel("completeoperation")
+        );
 
         return model;
     }

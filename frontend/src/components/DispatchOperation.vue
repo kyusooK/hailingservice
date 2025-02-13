@@ -1,5 +1,5 @@
 <template>
-    <v-card style="width:450px; height:100%;" outlined>
+    <v-card outlined>
         <template slot="progress">
             <v-progress-linear
                     color="primary-darker-1"
@@ -22,6 +22,8 @@
             <UserId offline label="userId" v-model="value.userId" :editMode="editMode" @change="change"/>
             <DriverId offline label="driverId" v-model="value.driverId" :editMode="editMode" @change="change"/>
             <Number label="운행요금" v-model="value.fee" :editMode="editMode" :inputUI="''"/>
+            <String label="PaymentId" v-model="value.paymentId" :editMode="editMode" :inputUI="''"/>
+            <String label="PaymentStatus" v-model="value.paymentStatus" :editMode="editMode" :inputUI="''"/>
         </v-card-text>
 
         <v-card-actions style="background-color: white;">
@@ -53,13 +55,6 @@
                 <v-btn
                     color="primary"
                     text
-                    @click="save"
-                >
-                    운행 완료
-                </v-btn>
-                <v-btn
-                    color="primary"
-                    text
                     @click="editMode = false"
                     v-if="editMode && !isNew"
                 >
@@ -82,6 +77,20 @@
                     @closeDialog="closeOperate"
                     @operate="operate"
                 ></OperateCommand>
+            </v-dialog>
+            <v-btn
+                v-if="!editMode"
+                color="primary"
+                text
+                @click="openCompleteOperation"
+            >
+                CompleteOperation
+            </v-btn>
+            <v-dialog v-model="completeOperationDiagram" width="500">
+                <CompleteOperationCommand
+                    @closeDialog="closeCompleteOperation"
+                    @completeOperation="completeOperation"
+                ></CompleteOperationCommand>
             </v-dialog>
         </v-card-actions>
 
@@ -121,6 +130,7 @@
                 text: '',
             },
             operateDiagram: false,
+            completeOperationDiagram: false,
         }),
 	async created() {
         },
@@ -243,6 +253,32 @@
             },
             closeOperate() {
                 this.operateDiagram = false;
+            },
+            async completeOperation(params) {
+                try {
+                    if(!this.offline) {
+                        var temp = await axios.put(axios.fixUrl(this.value._links['completeoperation'].href), params)
+                        for(var k in temp.data) {
+                            this.value[k]=temp.data[k];
+                        }
+                    }
+
+                    this.editMode = false;
+                    this.closeCompleteOperation();
+                } catch(e) {
+                    this.snackbar.status = true
+                    if(e.response && e.response.data.message) {
+                        this.snackbar.text = e.response.data.message
+                    } else {
+                        this.snackbar.text = e
+                    }
+                }
+            },
+            openCompleteOperation() {
+                this.completeOperationDiagram = true;
+            },
+            closeCompleteOperation() {
+                this.completeOperationDiagram = false;
             },
         },
     }

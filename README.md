@@ -39,7 +39,7 @@ mvn spring-boot:run
 ```
 - dispatch
 ```
- http :8088/operations id="id"passengerLocation="passengerLocation"destination="destination"OperationStatus = "OPERATED"UserId := '{"id": 0}'DriverId := '{"id": 0}'fee="fee"
+ http :8088/operations id="id"passengerLocation="passengerLocation"destination="destination"OperationStatus = "OPERATED"UserId := '{"id": 0}'DriverId := '{"id": 0}'fee="fee"paymentId="paymentId"paymentStatus="paymentStatus"
  http :8088/matchings id="id"destination="destination"passengerLocation="passengerLocation"DriverId := '{"id": 0}'UserId := '{"id": 0}'latitude="latitude"longitude="longitude"estimatedTime="estimatedTime"estimatedDistance="estimatedDistance"driverLocation="DriverLocation"
 ```
 - driver

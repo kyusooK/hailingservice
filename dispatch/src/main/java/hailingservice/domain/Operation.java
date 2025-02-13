@@ -1,7 +1,6 @@
 package hailingservice.domain;
 
 import hailingservice.domain.CarHailing;
-import hailingservice.domain.OperationCompleted;
 import hailingservice.DispatchApplication;
 import javax.persistence.*;
 import java.util.List;
@@ -58,6 +57,16 @@ public class Operation  {
     
     
     private Long fee;
+    
+    
+    
+    
+    private String paymentId;
+    
+    
+    
+    
+    private String paymentStatus;
 
     @PostPersist
     public void onPostPersist(){
@@ -65,15 +74,6 @@ public class Operation  {
 
         CarHailing carHailing = new CarHailing(this);
         carHailing.publishAfterCommit();
-
-    
-    }
-    @PostUpdate
-    public void onPostUpdate(){
-
-
-        OperationCompleted operationCompleted = new OperationCompleted(this);
-        operationCompleted.publishAfterCommit();
 
     
     }
@@ -101,6 +101,30 @@ public class Operation  {
         operated.publishAfterCommit();
     }
 //>>> Clean Arch / Port Method
+//<<< Clean Arch / Port Method
+    public void completeOperation(CompleteOperationCommand completeOperationCommand){
+        
+        //implement business logic here:
+        
+        //Following code causes dependency to external APIs
+        // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
+
+        hailingservice.external.Payment payment = new hailingservice.external.Payment();
+        // mappings goes here
+        DispatchApplication.applicationContext.getBean(hailingservice.external.PaymentService.class)
+            .requsetPayment(payment);
+
+
+        hailingservice.external.OperationQuery operationQuery = new hailingservice.external.OperationQuery();
+        // operationQuery.set??()        
+          = OperationApplication.applicationContext
+            .getBean(hailingservice.external.Service.class)
+            .operation(operationQuery);
+
+        OperationCompleted operationCompleted = new OperationCompleted(this);
+        operationCompleted.publishAfterCommit();
+    }
+//>>> Clean Arch / Port Method
 
 //<<< Clean Arch / Port Method
     public static void registerDriver(HailingAccepted hailingAccepted){
@@ -117,6 +141,32 @@ public class Operation  {
         
 
         repository().findById(hailingAccepted.get???()).ifPresent(operation->{
+            
+            operation // do something
+            repository().save(operation);
+
+
+         });
+        */
+
+        
+    }
+//>>> Clean Arch / Port Method
+//<<< Clean Arch / Port Method
+    public static void updatePaymentInfo(PaymentCompleted paymentCompleted){
+        
+        //implement business logic here:
+        
+        /** Example 1:  new item 
+        Operation operation = new Operation();
+        repository().save(operation);
+
+        */
+
+        /** Example 2:  finding and process
+        
+
+        repository().findById(paymentCompleted.get???()).ifPresent(operation->{
             
             operation // do something
             repository().save(operation);

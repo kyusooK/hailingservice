@@ -1,8 +1,6 @@
 package hailingservice.domain;
 
 import hailingservice.domain.DriverRegistered;
-import hailingservice.domain.HailingRejected;
-import hailingservice.domain.DriverDisapproved;
 import hailingservice.DriverApplication;
 import javax.persistence.*;
 import java.util.List;
@@ -77,20 +75,6 @@ public class Driver  {
         DriverRegistered driverRegistered = new DriverRegistered(this);
         driverRegistered.publishAfterCommit();
 
-
-
-        HailingRejected hailingRejected = new HailingRejected(this);
-        hailingRejected.publishAfterCommit();
-
-    
-    }
-    @PostUpdate
-    public void onPostUpdate(){
-
-
-        DriverDisapproved driverDisapproved = new DriverDisapproved(this);
-        driverDisapproved.publishAfterCommit();
-
     
     }
 
@@ -110,6 +94,8 @@ public class Driver  {
 
         DriverApproved driverApproved = new DriverApproved(this);
         driverApproved.publishAfterCommit();
+        DriverDisapproved driverDisapproved = new DriverDisapproved(this);
+        driverDisapproved.publishAfterCommit();
     }
 //>>> Clean Arch / Port Method
 //<<< Clean Arch / Port Method
@@ -126,6 +112,8 @@ public class Driver  {
 
         HailingAccepted hailingAccepted = new HailingAccepted(this);
         hailingAccepted.publishAfterCommit();
+        HailingRejected hailingRejected = new HailingRejected(this);
+        hailingRejected.publishAfterCommit();
     }
 //>>> Clean Arch / Port Method
 //<<< Clean Arch / Port Method

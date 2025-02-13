@@ -48,6 +48,7 @@ logging:
 api:
   url: 
     dispatch: localhost:8083 
+    payment: localhost:0 
     
 
 server:
@@ -88,5 +89,6 @@ spring:
 api:
   url: 
     dispatch: dispatch:8080 
+    payment: payment:8080 
     
 

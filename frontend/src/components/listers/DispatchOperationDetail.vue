@@ -17,6 +17,12 @@
             <div>
                 <Number label="Fee" v-model="item.fee" :editMode="editMode" @change="change" />
             </div>
+            <div>
+                <String label="PaymentId" v-model="item.paymentId" :editMode="editMode" @change="change" />
+            </div>
+            <div>
+                <String label="PaymentStatus" v-model="item.paymentStatus" :editMode="editMode" @change="change" />
+            </div>
         </v-card-text>
 
         <v-card-actions>
