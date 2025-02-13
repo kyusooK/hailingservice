@@ -90,7 +90,6 @@
         <review-app>
             <review-review-cards show-reviews="true" show-review-input="true" detail-mode="true" :value="JSON.stringify(reviewData)"></review-review-cards>
         </review-app>
-        <reservation v-if="!editMode" :editMode="true"/>
 
         <v-snackbar
             v-model="snackbar.status"
@@ -108,16 +107,12 @@
 </template>
 
 <script>
-    import payment from '../../../payment-system-0-0-4/frontend/src/components/listers/Payment.vue';
-    import reservation from '../../../Reservation-Notification-0-0-3/frontend/src/components/ReservationReservation.vue'
     const axios = require('axios').default;
 
 
     export default {
         name: 'DispatchOperation',
         components:{
-            payment,
-            reservation
         },
         props: {
             value: [Object, String, Number, Boolean, Array],
