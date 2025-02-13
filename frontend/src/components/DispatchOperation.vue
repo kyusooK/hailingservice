@@ -27,7 +27,9 @@
             <v-spacer></v-spacer>
             <div v-if="!editMode">
                 <v-row>
-                    <payment v-if="!editMode" serviceType="pay" :paymentDetail="false" :editMode="true" :requestInfo="receiptInfo"/>
+                    <payment-system>
+                        <Payment serviceType='pay' :buyerInfoMode="false"/>
+                    </payment-system>
                 <v-btn
                 color="primary"
                 text
@@ -51,12 +53,19 @@
                     운행
                 </v-btn>
                 <v-btn
+                    v-if="!editMode"
                     color="primary"
                     text
-                    @click="save"
+                    @click="openCompleteOperation"
                 >
-                    운행 완료
+                    운행완료
                 </v-btn>
+                <v-dialog v-model="completeOperationDiagram" width="500">
+                    <CompleteOperationCommand
+                        @closeDialog="closeCompleteOperation"
+                        @completeOperation="completeOperation"
+                    ></CompleteOperationCommand>
+                </v-dialog>
                 </v-row>
             </div>
             <div v-else>
@@ -90,7 +99,6 @@
         <review-app>
             <review-review-cards show-reviews="true" show-review-input="true" detail-mode="true" :value="JSON.stringify(reviewData)"></review-review-cards>
         </review-app>
-
         <v-snackbar
             v-model="snackbar.status"
             :top="true"
@@ -107,13 +115,15 @@
 </template>
 
 <script>
+import Payment from '../../../payment-system-0-0-6/frontend/src/components/listers/Payment.vue';
     const axios = require('axios').default;
 
 
     export default {
         name: 'DispatchOperation',
         components:{
-        },
+    Payment
+},
         props: {
             value: [Object, String, Number, Boolean, Array],
             editMode: Boolean,
@@ -134,6 +144,7 @@
                 
             },
             operateDiagram: false,
+            completeOperationDiagram: false
         }),
 	async created() {
             if(!this.reviewData.itemId){
@@ -258,11 +269,37 @@
                     }
                 }
             },
+            async completeOperation(params) {
+                try {
+                    if(!this.offline) {
+                        var temp = await axios.put(axios.fixUrl(this.value._links['completeoperation'].href), params)
+                        for(var k in temp.data) {
+                            this.value[k]=temp.data[k];
+                        }
+                    }
+
+                    this.editMode = false;
+                    this.closeCompleteOperation();
+                } catch(e) {
+                    this.snackbar.status = true
+                    if(e.response && e.response.data.message) {
+                        this.snackbar.text = e.response.data.message
+                    } else {
+                        this.snackbar.text = e
+                    }
+                }
+            },
             openOperate() {
                 this.operateDiagram = true;
             },
             closeOperate() {
                 this.operateDiagram = false;
+            },
+            openCompleteOperation() {
+                this.completeOperationDiagram = true;
+            },
+            closeCompleteOperation() {
+                this.completeOperationDiagram = false;
             },
         },
     }

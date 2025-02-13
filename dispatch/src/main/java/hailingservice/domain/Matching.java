@@ -117,8 +117,8 @@ public class Matching {
     //<<< Clean Arch / Port Method
     public static void calculateDestination(Operated operated) {
         String apiKey = "BIwUJL1VBo3lanAgKYxGQ7egeR1SP8iD7UqIbYpN"; // API 키
-
-        repository().findById(operated.getId() - 1).ifPresent(matching->{
+        Long matchingId = Long.valueOf(operated.getId()) + 1;
+        repository().findById(matchingId).ifPresent(matching->{
             
             try {
                 // 승객의 위치 좌표 변환

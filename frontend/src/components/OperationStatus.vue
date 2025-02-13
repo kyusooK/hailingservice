@@ -7,7 +7,7 @@
             <div v-if="editMode" style="margin-top:-20px;">
                 <v-select
                         v-model="newValue"
-                        :label="'name'"
+                        :label="'operationStatus'"
                         :items="operationStatusList"
                 ></v-select>
             </div>

@@ -38,6 +38,11 @@ public class Operation  {
     
     private Long fee;
 
+    private Long paymentId;
+    
+    private String paymentStatus;
+
+
     @PostPersist
     public void onPostPersist(){
         CarHailing carHailing = new CarHailing(this);
@@ -55,9 +60,15 @@ public class Operation  {
         return operationRepository;
     }
 
+    public static void registerDriver(HailingAccepted hailingAccepted){
+        Long operationId = Long.valueOf(hailingAccepted.getOperationRequestId()) - 1;
+        repository().findById(operationId).ifPresent(operation->{
+            
+            operation.setDriverId(new DriverId(hailingAccepted.getId()));
+            repository().save(operation);
+        });
+    }
 
-
-//<<< Clean Arch / Port Method
     public void operate(OperateCommand operateCommand){
         
         repository().findById(this.getId()).ifPresent(operation->{
@@ -67,16 +78,32 @@ public class Operation  {
             operated.publishAfterCommit();
         });
     }
-    public static void registerDriver(HailingAccepted hailingAccepted){
+
+    public void completeOperation(CompleteOperationCommand completeOperationCommand){
         
-        repository().findById(hailingAccepted.getOperationRequestId() - 1).ifPresent(operation->{
-            
-            operation.setDriverId(new DriverId(hailingAccepted.getId()));
-            repository().save(operation);
+        repository().findById(this.getId()).ifPresent(operation->{
+
+            operation.setFee(completeOperationCommand.getFee());
+            operation.setOperationStatus(completeOperationCommand.getOperationStatus());
+
+            OperationCompleted operationCompleted = new OperationCompleted(this);
+            operationCompleted.publishAfterCommit();
         });
     }
-//>>> Clean Arch / Port Method
 
+    public static void updatePaymentInfo(PaymentCompleted paymentCompleted){
+        
+        repository().findById(paymentCompleted.getItemId()).ifPresent(operation->{
+            
+            operation.setPaymentId(paymentCompleted.getId());
+            operation.setPaymentStatus("결제 완료");
+            repository().save(operation);
+
+
+         });
+
+        
+    }
 
 }
 //>>> DDD / Aggregate Root
