@@ -40,21 +40,21 @@ public class User {
     }
 
     //<<< Clean Arch / Port Method
-    public static void serveDriverInfo(DriverMatched driverMatched) {
+    public static void serveDriverInfo(ReservationCreated reservationCreated) {
         
         
-        ObjectMapper mapper = new ObjectMapper();
-        Map<Long, Object> matchingUserMap = mapper.convertValue(driverMatched.getUserId(), Map.class);
+        // ObjectMapper mapper = new ObjectMapper();
+        // // Map<Long, Object> matchingUserMap = mapper.convertValue(driverMatched.getUserId(), Map.class);
 
-        repository().findById(Long.valueOf(matchingUserMap.get("id").toString())).ifPresent(user->{
+        // repository().findById(Long.valueOf(matchingUserMap.get("id").toString())).ifPresent(user->{
             
-            user.setMessage(
-                "차량 호출이 수락되었습니다.\n" +
-                "기사님 위치: " + driverMatched.getDriverLocation() + "\n" +
-                "도착 예상 시간: " + driverMatched.getEstimatedTime());
-            repository().save(user);
+        //     user.setMessage(
+        //         "차량 호출이 수락되었습니다.\n" +
+        //         "기사님 위치: " + driverMatched.getDriverLocation() + "\n" +
+        //         "도착 예상 시간: " + driverMatched.getEstimatedTime());
+        //     repository().save(user);
 
-        });
+        // });
 
     }
     //>>> Clean Arch / Port Method

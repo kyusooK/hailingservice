@@ -25,14 +25,16 @@ public class PolicyHandler {
 
     @StreamListener(
         value = KafkaProcessor.INPUT,
-        condition = "headers['type']=='DriverMatched'"
+        condition = "headers['type']=='ReservationCreated'"
     )
-    public void wheneverDriverMatched_ServeDriverInfo(
-        @Payload DriverMatched driverMatched
+    public void wheneverReservationCreated_ServeDriverInfo(
+        @Payload ReservationCreated reservationCreated
     ) {
-        DriverMatched event = driverMatched;
+        ReservationCreated event = reservationCreated;
         System.out.println(
-            "\n\n##### listener ServeDriverInfo : " + driverMatched + "\n\n"
+            "\n\n##### listener ServeDriverInfo : " +
+            reservationCreated +
+            "\n\n"
         );
 
         // Sample Logic //

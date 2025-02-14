@@ -293,7 +293,7 @@
                     buyerName: me.requestInfo.buyerName,
                     buyerTel: me.requestInfo.buyerTel,
                     buyerEmail: me.requestInfo.buyerEmail,
-                    status: "PAYMENT_REQUESTED",
+                    status: "PAYMENT_COMPLETED",
                 })
                 const id = result.headers.location.split('/').pop();
                 const response = await PortOne.requestPayment({                    // Store ID 설정
@@ -323,6 +323,7 @@
                         }
                     )
                     alert(`결제 성공`)
+                    location.reload()
                 } else {
                     await axios.put(axios.fixUrl(`/payments/${id}/receivepaymentcompleted`),
                         {
@@ -334,6 +335,7 @@
                         }
                     )
                     alert(`결제 성공`)
+                    location.reload()
                 }
                 me.closeDialog()
             },  

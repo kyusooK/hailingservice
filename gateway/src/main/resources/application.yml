@@ -17,6 +17,16 @@ spring:
           uri: http://localhost:8052
           predicates:
             - Path=/reviews/**
+        - id: reservation
+          uri: http://localhost:8072
+          predicates:
+            - Path=/reservations/**, 
+        - id: notification
+          uri: http://localhost:8073
+          predicates:
+            - Path=/notifications/**
+          filters:
+            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
         - id: user
           uri: http://localhost:8082
           predicates:

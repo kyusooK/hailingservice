@@ -1,6 +1,9 @@
 <template>
     <v-app id="inspire">
-        <SNSApp />
+        <SNSApp/>
+        <reservation-notification-app>
+            <reservation-reservation/>
+        </reservation-notification-app>
     </v-app>
 </template>
 
@@ -10,8 +13,8 @@ import SNSApp from './SNSApp.vue'
 export default {
 
     components: {
-        SNSApp
-    },
+    SNSApp,
+},
     name: "App",
     data: () => ({
         useComponent: "",

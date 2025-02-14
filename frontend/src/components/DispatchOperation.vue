@@ -30,7 +30,6 @@
             <div v-if="!editMode">
                 <v-row>
                     <payment-system-app>
-                        <!-- <payment-system serviceType='pay' :buyerInfoMode="false" :requestInfo="JSON.stringify(receiptInfo)"/> -->
                         <payment-system
                             service-type="pay"
                             :request-info="JSON.stringify(paymentData)" 
@@ -73,6 +72,13 @@
                         @completeOperation="completeOperation"
                     ></CompleteOperationCommand>
                 </v-dialog>
+                <payment-system-app v-if="value.paymentId">
+                        <payment-system
+                            service-type="receipt"
+                            :request-info="JSON.stringify(paymentData)" 
+                            buyer-info-mode="true"
+                        ></payment-system>
+                    </payment-system-app>
                 </v-row>
             </div>
             <div v-else>
@@ -149,7 +155,7 @@
             operateDiagram: false,
             completeOperationDiagram: false
         }),
-	async created() {
+	    async created() {
             if(!this.reviewData.itemId){
                 this.reviewData.itemId = this.decode(this.value._links.self.href.split("/")[this.value._links.self.href.split("/").length - 1])
             }
@@ -164,8 +170,6 @@
                     buyerName: "test"
                 }
             }
-            console.log(paymentData);
-            
         },
         methods: {
             decode(value) {
@@ -272,6 +276,7 @@
 
                     this.editMode = false;
                     this.closeOperate();
+                    location.reload()
                 } catch(e) {
                     this.snackbar.status = true
                     if(e.response && e.response.data.message) {
@@ -292,6 +297,7 @@
 
                     this.editMode = false;
                     this.closeCompleteOperation();
+                    location.reload()
                 } catch(e) {
                     this.snackbar.status = true
                     if(e.response && e.response.data.message) {
