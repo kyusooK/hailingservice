@@ -1,9 +1,6 @@
 <template>
     <v-app id="inspire">
         <SNSApp/>
-        <reservation-notification-app>
-            <reservation-notification/>
-        </reservation-notification-app>
     </v-app>
 </template>
 

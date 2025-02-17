@@ -1,5 +1,8 @@
 <template>
     <v-app id="inspire">
+        <reservation-notification-app>
+            <reservation-notification/>
+        </reservation-notification-app>
         <div>
             <v-app-bar color="primary" app clipped-left flat>
                 <v-toolbar-title>
@@ -224,4 +227,71 @@ export default {
 };
 </script>
 <style>
+.notifications-container {
+    position: absolute;
+    top: 0;
+    right: 10%;
+    z-index: 999999999;
+    pointer-events: none;
+    width: auto;
+    height: auto;
+}
+
+.mac-notification {
+    pointer-events: auto;
+    position: fixed;
+    right: 20px;
+    width: 300px;
+    background: rgba(50, 50, 50, 0.95);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    margin-bottom: 20px;
+    z-index: 999999;
+}
+
+.notification-header {
+    padding: 12px 15px;
+    background: rgba(60, 60, 60, 0.95);
+    color: white;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.notification-content {
+    padding: 15px;
+    color: white;
+    font-size: 14px;
+}
+
+.close-btn {
+    margin-left: auto;
+}
+
+.slide-notification-enter-active,
+.slide-notification-leave-active {
+    transition: all 0.3s ease;
+}
+
+.slide-notification-enter-from {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+.slide-notification-leave-to {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+.slide-notification-move {
+    transition: transform 0.3s ease;
+}
+
+.notification-time {
+    font-size: 12px;
+    color: #999;
+    margin-top: 8px;
+    text-align: right;
+}
 </style>
