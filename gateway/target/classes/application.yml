@@ -48,6 +48,8 @@ spring:
           predicates:
             - Path=/**
 #>>> API Gateway / Routes
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -57,7 +59,13 @@ spring:
               - "*"
             allowedHeaders:
               - "*"
+            exposedHeaders:
+              - "X-Total-Count"
+              - "Link"
+              - "Access-Control-Allow-Origin"
+              - "Access-Control-Allow-Credentials"
             allowCredentials: true
+            maxAge: 3600
 
 
 ---

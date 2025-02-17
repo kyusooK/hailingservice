@@ -1,13 +1,14 @@
 package hailingservice.external;
 
-import java.util.Date;
+import java.util.*;
+
 import lombok.Data;
 
 @Data
 public class Reservation {
 
     private String taskId;
-    private String userId;
+    private List<String> targetUserIds;
     private String title;
     private String description;
     private Date dueDate;

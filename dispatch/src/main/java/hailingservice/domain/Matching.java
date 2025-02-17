@@ -97,6 +97,7 @@ public class Matching {
                 
                 reservation.setTaskId(matching.getId().toString());
                 reservation.setTitle("DriverMatched");
+                // reservation.setTargetUserIds();
                 reservation.setDescription(
                 "운전자 위치: " + matching.getDriverLocation() + 
                 "승객 위치: " + matching.getPassengerLocation() + 
