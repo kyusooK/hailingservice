@@ -156,6 +156,10 @@
             </v-dialog>
         </v-card-actions>
 
+        <review-app>
+            <review-review-cards show-reviews="true" show-review-input="true" detail-mode="true" :value="JSON.stringify(reviewData)"></review-review-cards>
+        </review-app>
+
         <v-snackbar
             v-model="snackbar.status"
             :top="true"
@@ -191,9 +195,15 @@
                 timeout: 5000,
                 text: '',
             },
+            reviewData: {
+                userId: "사용자"
+            },
             changeOperationstatusDiagram: false,
         }),
 	async created() {
+            if(!this.reviewData.itemId){
+                this.reviewData.itemId = this.decode(this.value._links.self.href.split("/")[this.value._links.self.href.split("/").length - 1])
+            }
         },
         computed: {
             formattedOperationRequestForm() {
