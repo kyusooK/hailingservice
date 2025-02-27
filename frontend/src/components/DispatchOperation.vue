@@ -156,10 +156,10 @@
                     itemId : this.decode(this.value._links.self.href.split("/")[this.value._links.self.href.split("/").length - 1]),
                     price: this.value.fee,
                     name: "운행요금",
-                    buyerId: "test",
-                    buyerEmail: "test@gmail.com",
+                    buyerId: "user",
+                    buyerEmail: "user@gmail.com",
                     buyerTel: "01012345678",
-                    buyerName: "test"
+                    buyerName: "user"
                 }
             }
         },

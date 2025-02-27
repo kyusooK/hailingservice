@@ -89,6 +89,10 @@ public class Operation  {
 
             operation.setFee(completeOperationCommand.getFee());
             operation.setOperationStatus(completeOperationCommand.getOperationStatus());
+            operation.setPassengerLocation(this.getPassengerLocation());
+            operation.setDestination(this.getDestination());
+            operation.setUserId(this.getUserId());
+            operation.setDriverId(this.getDriverId());
 
             OperationCompleted operationCompleted = new OperationCompleted(this);
             operationCompleted.publishAfterCommit();
