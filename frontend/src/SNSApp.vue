@@ -107,10 +107,8 @@
                     <div class="App-sub-text-overlap"></div>
                 </div>
                 <v-row class="pa-0 ma-0">
-                    <v-col cols="3" class="pa-0 pa-0" v-for="(aggregate, index) in aggregate" :key="index">
-                        <div 
-                            class="flip-card pa-4"
-                        >
+                    <v-col cols="12" lg="3" md="4" sm="6" class="pa-0 pa-0" v-for="(aggregate, index) in aggregate" :key="index">
+                        <div class="pa-4">
                             <v-card
                                 :key="aggregate.key"
                                 :to="aggregate.route"
