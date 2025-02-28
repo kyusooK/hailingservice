@@ -18,6 +18,6 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: "user11registry.azurecr.io/frontend:0302"
+          image: "user11registry.azurecr.io/frontend:0308"
           ports:
             - containerPort: 8080

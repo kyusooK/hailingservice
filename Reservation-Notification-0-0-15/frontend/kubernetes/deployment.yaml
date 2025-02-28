@@ -3,21 +3,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: alarmpbc
+  name: alarmpbcfe
   labels:
-    app: alarmpbc
+    app: alarmpbcfe
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: alarmpbc
+      app: alarmpbcfe
   template:
     metadata:
       labels:
-        app: alarmpbc
+        app: alarmpbcfe
     spec:
       containers:
-        - name: alarmpbc
+        - name: alarmpbcfe
           image: "user11registry.azurecr.io/alarmpbc:0228"
           ports:
             - containerPort: 8080

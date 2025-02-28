@@ -108,7 +108,19 @@ spring:
         - id: operationstatistics
           uri: http://operationstatistics:8080
           predicates:
-            - Path=, 
+            - Path=/operationstatisticses/**
+        - id: paymentpbcfe
+          uri: http://paymentpbcfe:8080
+          predicates:
+            - Path=/paymentpbcfe/**, 
+        - id: alarmpbcfe
+          uri: http://alarmpbcfe:8080
+          predicates:
+            - Path=/alarmpbcfe/**, 
+        - id: reviewpbcfe
+          uri: http://reviewpbcfe:8080
+          predicates:
+            - Path=/reviewpbcfe/**, 
         - id: frontend
           uri: http://frontend:8080
           predicates:

@@ -3,21 +3,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: paymentpbc
+  name: paymentpbcfe
   labels:
-    app: paymentpbc
+    app: paymentpbcfe
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: paymentpbc
+      app: paymentpbcfe
   template:
     metadata:
       labels:
-        app: paymentpbc
+        app: paymentpbcfe
     spec:
       containers:
-        - name: paymentpbc
-          image: "user11registry.azurecr.io/paymentpbc:0228"
+        - name: paymentpbcfe
+          image: "user11registry.azurecr.io/paymentpbcfe:0229"
           ports:
             - containerPort: 8080
