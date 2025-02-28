@@ -91,5 +91,23 @@ public class PolicyHandler {
         // Sample Logic //
         Operation.registerDriver(event);
     }
+
+    @StreamListener(
+        value = KafkaProcessor.INPUT,
+        condition = "headers['type']=='RequestPaymentCompleted'"
+    )
+    public void wheneverRequestPaymentCompleted_UpdatePaymentInfo(
+        @Payload RequestPaymentCompleted requestPaymentCompleted
+    ) {
+        RequestPaymentCompleted event = requestPaymentCompleted;
+        System.out.println(
+            "\n\n##### listener UpdatePaymentInfo : " +
+            requestPaymentCompleted +
+            "\n\n"
+        );
+
+        // Sample Logic //
+        Operation.updatePaymentInfo(event);
+    }
 }
 //>>> Clean Arch / Inbound Adaptor

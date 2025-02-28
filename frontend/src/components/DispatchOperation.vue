@@ -22,12 +22,20 @@
             <UserId offline label="사용자 ID" v-model="value.userId" :editMode="editMode" @change="change"/>
             <DriverId v-if="!editMode" offline label="운전자 ID" v-model="value.driverId" :editMode="false" @change="change"/>
             <Number v-if="!editMode" label="운행요금" v-model="value.fee" :editMode="false" :inputUI="''"/>
+            <String v-if="!editMode" label="PaymentId" v-model="value.paymentId" :editMode="false" :inputUI="''"/>
+            <String v-if="!editMode" label="PaymentStatus" v-model="value.paymentStatus" :editMode="false" :inputUI="''"/>
         </v-card-text>
         <v-card-actions style="background-color: white;">
             <v-spacer></v-spacer>
             <div v-if="!editMode">
                 <v-row>
-                    <payment v-if="!editMode" serviceType="pay" :paymentDetail="false" :editMode="true" :requestInfo="receiptInfo"/>
+                    <payment-system-app>
+                        <payment-system
+                            service-type="pay"
+                            :request-info="JSON.stringify(paymentData)" 
+                            buyer-info-mode="true"
+                        ></payment-system>
+                    </payment-system-app>
                 <v-btn
                 color="primary"
                 text
@@ -51,12 +59,26 @@
                     운행
                 </v-btn>
                 <v-btn
+                    v-if="!editMode"
                     color="primary"
                     text
-                    @click="save"
+                    @click="openCompleteOperation"
                 >
-                    운행 완료
+                    운행완료
                 </v-btn>
+                <v-dialog v-model="completeOperationDiagram" width="500">
+                    <CompleteOperationCommand
+                        @closeDialog="closeCompleteOperation"
+                        @completeOperation="completeOperation"
+                    ></CompleteOperationCommand>
+                </v-dialog>
+                <payment-system-app v-if="value.paymentId">
+                        <payment-system
+                            service-type="receipt"
+                            :request-info="JSON.stringify(paymentData)" 
+                            buyer-info-mode="true"
+                        ></payment-system>
+                    </payment-system-app>
                 </v-row>
             </div>
             <div v-else>
@@ -87,11 +109,6 @@
             </v-dialog>
         </v-card-actions>
         
-        <review-app>
-            <review-review-cards show-reviews="true" show-review-input="true" detail-mode="true" :value="JSON.stringify(reviewData)"></review-review-cards>
-        </review-app>
-        <reservation v-if="!editMode" :editMode="true"/>
-
         <v-snackbar
             v-model="snackbar.status"
             :top="true"
@@ -108,16 +125,13 @@
 </template>
 
 <script>
-    import payment from '../../../payment-system-0-0-4/frontend/src/components/listers/Payment.vue';
-    import reservation from '../../../Reservation-Notification-0-0-3/frontend/src/components/ReservationReservation.vue'
+
     const axios = require('axios').default;
 
 
     export default {
         name: 'DispatchOperation',
         components:{
-            payment,
-            reservation
         },
         props: {
             value: [Object, String, Number, Boolean, Array],
@@ -131,23 +145,23 @@
                 timeout: 5000,
                 text: '',
             },
-            reviewData: {
-                userId: "사용자"
-            },
-            receiptInfo: {
-                name: "운행요금",
-                
-            },
+         
+            paymentData: null,
             operateDiagram: false,
+            completeOperationDiagram: false
         }),
-	async created() {
-            if(!this.reviewData.itemId){
-                this.reviewData.itemId = this.decode(this.value._links.self.href.split("/")[this.value._links.self.href.split("/").length - 1])
+	    async created() {
+            if(!this.paymentData){
+                this.paymentData = {
+                    itemId : this.decode(this.value._links.self.href.split("/")[this.value._links.self.href.split("/").length - 1]),
+                    price: this.value.fee,
+                    name: "운행요금",
+                    buyerId: "user",
+                    buyerEmail: "user@gmail.com",
+                    buyerTel: "01012345678",
+                    buyerName: "user"
+                }
             }
-            if(!this.receiptInfo.price){
-                this.receiptInfo.price = this.value.fee
-            }
-            console.log(this.reviewData.itemId)
         },
         methods: {
             decode(value) {
@@ -254,6 +268,28 @@
 
                     this.editMode = false;
                     this.closeOperate();
+                    location.reload()
+                } catch(e) {
+                    this.snackbar.status = true
+                    if(e.response && e.response.data.message) {
+                        this.snackbar.text = e.response.data.message
+                    } else {
+                        this.snackbar.text = e
+                    }
+                }
+            },
+            async completeOperation(params) {
+                try {
+                    if(!this.offline) {
+                        var temp = await axios.put(axios.fixUrl(this.value._links['operation'].href), params)
+                        for(var k in temp.data) {
+                            this.value[k]=temp.data[k];
+                        }
+                    }
+
+                    this.editMode = false;
+                    this.closeCompleteOperation();
+                    location.reload()
                 } catch(e) {
                     this.snackbar.status = true
                     if(e.response && e.response.data.message) {
@@ -268,6 +304,12 @@
             },
             closeOperate() {
                 this.operateDiagram = false;
+            },
+            openCompleteOperation() {
+                this.completeOperationDiagram = true;
+            },
+            closeCompleteOperation() {
+                this.completeOperationDiagram = false;
             },
         },
     }

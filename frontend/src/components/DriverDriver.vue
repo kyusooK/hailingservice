@@ -69,14 +69,6 @@
                             >
                                 운행상태변경
                             </v-btn>
-                            <v-btn
-                                v-if="!editMode"
-                                color="primary"
-                                text
-                                @click="acceptCarhailing"
-                            >
-                                차량호출 수락
-                            </v-btn>
                         </v-row>
                     </div>
                     <v-divider class="my-2"></v-divider>
@@ -113,6 +105,14 @@
         <v-card-actions style="background-color: white;">
             <v-spacer></v-spacer>
             <div v-if="!editMode">
+                <v-btn
+                    v-if="!editMode"
+                    color="primary"
+                    text
+                    @click="acceptCarhailing"
+                >
+                    차량호출 수락
+                </v-btn>
                 <v-btn
                     color="primary"
                     text
@@ -156,6 +156,10 @@
             </v-dialog>
         </v-card-actions>
 
+        <review-app>
+            <review-review-cards show-reviews="true" show-review-input="true" detail-mode="true" :value="JSON.stringify(reviewData)"></review-review-cards>
+        </review-app>
+
         <v-snackbar
             v-model="snackbar.status"
             :top="true"
@@ -191,9 +195,15 @@
                 timeout: 5000,
                 text: '',
             },
+            reviewData: {
+                userId: "사용자"
+            },
             changeOperationstatusDiagram: false,
         }),
 	async created() {
+            if(!this.reviewData.itemId){
+                this.reviewData.itemId = this.decode(this.value._links.self.href.split("/")[this.value._links.self.href.split("/").length - 1])
+            }
         },
         computed: {
             formattedOperationRequestForm() {

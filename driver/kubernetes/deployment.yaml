@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: driver
-          image: "username/driver:latest"
+          image: "user11registry.azurecr.io/driver:0227"
           ports:
             - containerPort: 8080
           readinessProbe:

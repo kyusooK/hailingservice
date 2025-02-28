@@ -5,6 +5,8 @@
         </v-card-title>
 
         <v-card-text>
+            <OperationStatus offline label="OperationStatus" v-model="value.operationStatus" :editMode="editMode" @change="change"/>
+            <Number label="Fee" v-model="value.fee" :editMode="editMode"/>
         </v-card-text>
 
         <v-card-actions>
@@ -40,6 +42,8 @@
             value: {},
         }),
         created() {
+            this.value.operationStatus = {};
+            this.value.fee = 0;
         },
         watch: {
         },

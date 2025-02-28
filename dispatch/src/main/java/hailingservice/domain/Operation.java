@@ -38,6 +38,11 @@ public class Operation  {
     
     private Long fee;
 
+    private Long paymentId;
+    
+    private String paymentStatus;
+
+
     @PostPersist
     public void onPostPersist(){
         CarHailing carHailing = new CarHailing(this);
@@ -55,28 +60,57 @@ public class Operation  {
         return operationRepository;
     }
 
-
-
-//<<< Clean Arch / Port Method
-    public void operate(OperateCommand operateCommand){
-        
-        repository().findById(this.getId()).ifPresent(operation->{
-            operation.setOperationStatus(operateCommand.getOperationStatus());
-
-            Operated operated = new Operated(this);
-            operated.publishAfterCommit();
-        });
-    }
     public static void registerDriver(HailingAccepted hailingAccepted){
-        
-        repository().findById(hailingAccepted.getOperationRequestId() - 1).ifPresent(operation->{
+        Long operationId = Long.valueOf(hailingAccepted.getOperationRequestId()) - 1;
+        repository().findById(operationId).ifPresent(operation->{
             
             operation.setDriverId(new DriverId(hailingAccepted.getId()));
             repository().save(operation);
         });
     }
-//>>> Clean Arch / Port Method
 
+    public void operate(OperateCommand operateCommand){
+        
+        repository().findById(this.getId()).ifPresent(operation->{
+            operation.setOperationStatus(operateCommand.getOperationStatus());
+            operation.setDriverId(this.getDriverId());
+            operation.setUserId(this.getUserId());
+            operation.setPassengerLocation(this.getPassengerLocation());
+            operation.setDestination(this.getDestination());
+
+            Operated operated = new Operated(this);
+            operated.publishAfterCommit();
+        });
+    }
+
+    public void completeOperation(CompleteOperationCommand completeOperationCommand){
+        
+        repository().findById(this.getId()).ifPresent(operation->{
+
+            operation.setFee(completeOperationCommand.getFee());
+            operation.setOperationStatus(completeOperationCommand.getOperationStatus());
+            operation.setPassengerLocation(this.getPassengerLocation());
+            operation.setDestination(this.getDestination());
+            operation.setUserId(this.getUserId());
+            operation.setDriverId(this.getDriverId());
+
+            OperationCompleted operationCompleted = new OperationCompleted(this);
+            operationCompleted.publishAfterCommit();
+        });
+    }
+
+    public static void updatePaymentInfo(RequestPaymentCompleted requestPaymentCompleted){
+        
+        repository().findById(requestPaymentCompleted.getItemId()).ifPresent(operation->{
+            
+            operation.setPaymentId(requestPaymentCompleted.getId());
+            operation.setPaymentStatus(requestPaymentCompleted.getStatus());
+            repository().save(operation);
+
+         });
+
+        
+    }
 
 }
 //>>> DDD / Aggregate Root

@@ -1,0 +1,66 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build --target wc --name payment-system-app ./src/web-component.js",
+    "start": "serve -l 8030 dist",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@johmun/vue-tags-input": "^2.1.0",
+    "@portone/browser-sdk": "^0.0.11",
+    "axios": "^0.26.0",
+    "body-parser": "^1.19.2",
+    "core-js": "^3.6.5",
+    "crypto": "^1.0.1",
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "jquery": "^3.7.1",
+    "request": "^2.88.2",
+    "serve": "^14.2.4",
+    "uuid": "^11.0.5",
+    "vue": "^2.6.11",
+    "vue-router": "^3.4.3",
+    "vue2-google-maps": "^0.10.7",
+    "vuetify": "^2.6.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@vue/cli-plugin-babel": "~4.5.15",
+    "@vue/cli-plugin-eslint": "~4.5.15",
+    "@vue/cli-service": "~4.5.15",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.4.1",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "sass": "~1.32.0",
+    "sass-loader": "^10.0.0",
+    "vue-cli-plugin-vuetify": "~2.4.7",
+    "vue-template-compiler": "^2.6.11",
+    "vuetify-loader": "^1.7.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {
+      "no-mixed-spaces-and-tabs": 0
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

@@ -47,7 +47,8 @@ logging:
 
 api:
   url: 
-    dispatch: localhost:8083 
+    dispatch: localhost:8083
+    reservation: localhost:8072
     
 
 server:
@@ -88,5 +89,6 @@ spring:
 api:
   url: 
     dispatch: dispatch:8080 
+    reservation: reservation:8080
     
 

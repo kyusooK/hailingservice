@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: dispatch
-          image: "username/dispatch:latest"
+          image: "user11registry.azurecr.io/dispatch:0227"
           ports:
             - containerPort: 8080
           readinessProbe:

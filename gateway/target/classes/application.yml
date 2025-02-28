@@ -9,6 +9,24 @@ spring:
     gateway:
 #<<< API Gateway / Routes
       routes:
+        - id: payment
+          uri: http://localhost:8032
+          predicates:
+            - Path=/payments/**, 
+        - id: review
+          uri: http://localhost:8052
+          predicates:
+            - Path=/reviews/**
+        - id: reservation
+          uri: http://localhost:8072
+          predicates:
+            - Path=/reservations/**, 
+        - id: notification
+          uri: http://localhost:8073
+          predicates:
+            - Path=/notifications/**
+          filters:
+            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
         - id: user
           uri: http://localhost:8082
           predicates:
@@ -30,6 +48,8 @@ spring:
           predicates:
             - Path=/**
 #>>> API Gateway / Routes
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -39,7 +59,13 @@ spring:
               - "*"
             allowedHeaders:
               - "*"
+            exposedHeaders:
+              - "X-Total-Count"
+              - "Link"
+              - "Access-Control-Allow-Origin"
+              - "Access-Control-Allow-Credentials"
             allowCredentials: true
+            maxAge: 3600
 
 
 ---
@@ -49,6 +75,24 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: payment
+          uri: http://payment:8080
+          predicates:
+            - Path=/payments/**, 
+        - id: review
+          uri: http://review:8080
+          predicates:
+            - Path=/reviews/**
+        - id: reservation
+          uri: http://reservation:8080
+          predicates:
+            - Path=/reservations/**, 
+        - id: notification
+          uri: http://notification:8080
+          predicates:
+            - Path=/notifications/**
+          filters:
+            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
         - id: user
           uri: http://user:8080
           predicates:
@@ -69,6 +113,8 @@ spring:
           uri: http://frontend:8080
           predicates:
             - Path=/**
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -78,7 +124,13 @@ spring:
               - "*"
             allowedHeaders:
               - "*"
+            exposedHeaders:
+              - "X-Total-Count"
+              - "Link"
+              - "Access-Control-Allow-Origin"
+              - "Access-Control-Allow-Credentials"
             allowCredentials: true
+            maxAge: 3600
 
 server:
   port: 8080

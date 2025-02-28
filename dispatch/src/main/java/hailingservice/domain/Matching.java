@@ -92,6 +92,21 @@ public class Matching {
                 JsonNode routeProperties = Tmap.calculateRoute(passengerLat, passengerLon, driverLat, driverLon, apiKey);
                 int estimatedTime = routeProperties.get("totalTime").asInt();
                 int estimatedDistance = routeProperties.get("totalDistance").asInt();
+
+                hailingservice.external.Reservation reservation = new hailingservice.external.Reservation();
+                
+                reservation.setTaskId(matching.getId().toString());
+                reservation.setTitle("DriverMatched");
+                // reservation.setTargetUserIds();
+                reservation.setDescription(
+                "운전자 위치: " + matching.getDriverLocation() + 
+                "승객 위치: " + matching.getPassengerLocation() + 
+                "소요 시간" + estimatedTime +
+                "소요 거리" + estimatedDistance);
+                reservation.setNow(true);
+
+                DispatchApplication.applicationContext.getBean(hailingservice.external.ReservationService.class)
+                    .createReservation(reservation);
     
                 // 매칭 정보에 예상 시간 및 거리 저장
                 matching.setDriverId(new DriverId(hailingAccepted.getId()));
@@ -117,8 +132,8 @@ public class Matching {
     //<<< Clean Arch / Port Method
     public static void calculateDestination(Operated operated) {
         String apiKey = "BIwUJL1VBo3lanAgKYxGQ7egeR1SP8iD7UqIbYpN"; // API 키
-
-        repository().findById(operated.getId() - 1).ifPresent(matching->{
+        Long matchingId = Long.valueOf(operated.getId()) + 1;
+        repository().findById(matchingId).ifPresent(matching->{
             
             try {
                 // 승객의 위치 좌표 변환
