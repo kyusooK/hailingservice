@@ -18,6 +18,6 @@ spec:
     spec:
       containers:
         - name: paymentpbcfe
-          image: "user11registry.azurecr.io/paymentpbcfe:0229"
+          image: "user11registry.azurecr.io/paymentpbcfe:0301"
           ports:
             - containerPort: 8080

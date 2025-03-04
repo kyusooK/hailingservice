@@ -224,6 +224,7 @@
 <script>
     const axios = require('axios').default;
     import * as PortOne from "@portone/browser-sdk";
+    
 
     export default {
         name: 'payment-system',
@@ -246,7 +247,7 @@
             buyerInfoMode: Boolean,
         },
         data: () => ({
-            paymentId: `payment-${crypto.randomUUID()}`,
+            paymentId: `payment-${Math.floor(Math.random() * 9000000000) + 1000000000}`,
             receiptId: null,
             receiptInfo: {},
             isReceiptCompleted: false,

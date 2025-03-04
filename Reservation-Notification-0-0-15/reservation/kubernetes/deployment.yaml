@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: reservation
-          image: "user11registry.azurecr.io/reservation:0229"
+          image: "user11registry.azurecr.io/reservation:0305"
           ports:
             - containerPort: 8080
           readinessProbe:
